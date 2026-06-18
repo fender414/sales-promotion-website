@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社セールス促進会議</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --black: #14171c;
+    --white: #ffffff;
+    --gray-light: #f4f5f7;
+    --gray-border: #e4e7eb;
+    --gray-text: #6b7280;
+    --blue: #2461ec;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    color: var(--black);
+    line-height: 1.7;
+    background: var(--white);
+  }
+
+  a { text-decoration: none; color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--gray-border);
+    z-index: 100;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 76px;
+  }
+  .logo-mark { display: flex; align-items: center; gap: 14px; }
+  .logo-text { display: flex; flex-direction: column; }
+  .logo-en {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+  }
+  .logo-jp { font-size: 10px; color: var(--gray-text); letter-spacing: 0.5px; margin-top: 2px; }
+  .header-contact {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-text);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .header-contact a { color: var(--black); font-weight: 700; font-size: 15px; }
+  .header-contact a:hover { color: var(--blue); }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    padding: 140px 24px 120px;
+    border-bottom: 1px solid var(--gray-border);
+    background: #ffffff;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--blue);
+    margin-bottom: 20px;
+    display: block;
+  }
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.5px;
+    margin-bottom: 28px;
+    color: var(--black);
+  }
+  .hero h1 span { color: var(--blue); }
+  .hero p {
+    font-size: 16px;
+    color: var(--gray-text);
+    max-width: 560px;
+    margin-bottom: 36px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 28px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+  }
+  .btn-primary { background: var(--black); color: var(--white); }
+  .btn-primary:hover { background: var(--blue); }
+
+  /* About */
+  .about { padding: 90px 0; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .section-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    color: var(--blue);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .about h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .about-lead {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.9;
+    color: var(--black);
+  }
+  table.info-table { width: 100%; border-collapse: collapse; }
+  table.info-table tr { border-bottom: 1px solid var(--gray-border); }
+  table.info-table tr:first-child { border-top: 1px solid var(--gray-border); }
+  table.info-table th {
+    text-align: left;
+    padding: 18px 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-text);
+    width: 140px;
+    vertical-align: top;
+  }
+  table.info-table td {
+    padding: 18px 0;
+    font-size: 14.5px;
+    font-weight: 500;
+  }
+
+  /* CTA strip */
+  .cta-strip {
+    background: var(--black);
+    padding: 70px 0;
+  }
+  .cta-strip .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .cta-strip h3 { color: var(--white); font-size: 22px; font-weight: 700; }
+  .cta-strip p { color: #9aa1ad; font-size: 14px; margin-top: 8px; }
+  .cta-strip .tel {
+    color: var(--white);
+    font-size: 28px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 1px;
+  }
+  .cta-strip .tel-label {
+    font-size: 12px;
+    color: #9aa1ad;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  /* Footer */
+  footer { padding: 48px 0 32px; border-top: 1px solid var(--gray-border); }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--gray-border);
+  }
+  .footer-info p { font-size: 13px; color: var(--gray-text); margin-top: 8px; line-height: 1.9; }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-bottom p { font-size: 12px; color: var(--gray-text); }
+
+  /* Service section */
+  .service-section {
+    margin-top: 56px;
+    padding-top: 56px;
+    border-top: 1px solid var(--gray-border);
+    position: relative;
+    z-index: 2;
+  }
+  .service-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--blue);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .service-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--black);
+  }
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--gray-border);
+    border: 1px solid var(--gray-border);
+    margin-bottom: 28px;
+  }
+  .service-card {
+    background: var(--white);
+    padding: 32px 28px;
+  }
+  .service-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--blue);
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .service-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--black);
+  }
+  .service-card p {
+    font-size: 14px;
+    color: var(--gray-text);
+    margin-bottom: 16px;
+    line-height: 1.8;
+  }
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    border-radius: 3px;
+    padding: 3px 10px;
+  }
+  .service-notes {
+    background: var(--gray-light);
+    border: 1px solid var(--gray-border);
+    padding: 24px 28px;
+  }
+  .service-notes h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray-text);
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+  .service-notes ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .service-notes li {
+    font-size: 13.5px;
+    color: var(--black);
+    padding-left: 16px;
+    position: relative;
+  }
+  .service-notes li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--blue);
+    font-size: 12px;
+  }
+
+  /* Hamburger */
+  .hamburger { display: none; }
+
+  @media (max-width: 760px) {
+    .hero h1 { font-size: 30px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .cta-strip .wrap { flex-direction: column; align-items: flex-start; }
+    .header-contact { display: none; }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--black);
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-inner">
+    <a href="#" class="logo-mark">
+      <svg width="42" height="42" viewBox="0 0 50 50">
+        <path d="M32 8 L16 42" fill="none" stroke="#c8cdd4" stroke-width="6" stroke-linecap="round"/>
+        <path d="M4 4 L46 46" fill="none" stroke="#14171c" stroke-width="10" stroke-linecap="round"/>
+      </svg>
+      <div class="logo-text">
+        <span class="logo-en">SALES SOKUSHIN</span>
+        <span class="logo-jp">株式会社セールス促進会議</span>
+      </div>
+    </a>
+    <div class="header-contact">
+      <span>お電話でのお問い合わせ</span>
+      <a href="tel:0958431234">095-843-1234</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <svg class="hero-bg" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1440" height="600" fill="#ffffff"/>
+    <rect x="820" y="60" width="80" height="80" fill="none" stroke="#2461ec" stroke-width="2" opacity="0.5"/>
+    <rect x="840" y="80" width="50" height="50" fill="none" stroke="#2461ec" stroke-width="1.5" opacity="0.35"/>
+    <rect x="858" y="98" width="20" height="20" fill="none" stroke="#2461ec" stroke-width="1.2" opacity="0.3"/>
+    <rect x="1050" y="40" width="60" height="60" fill="none" stroke="#14171c" stroke-width="1.8" opacity="0.25"/>
+    <rect x="1062" y="52" width="36" height="36" fill="none" stroke="#14171c" stroke-width="1.2" opacity="0.18"/>
+    <rect x="780" y="200" width="40" height="40" fill="none" stroke="#14171c" stroke-width="1.2" opacity="0.2"/>
+    <rect x="1150" y="160" width="70" height="70" fill="none" stroke="#2461ec" stroke-width="2" opacity="0.45"/>
+    <rect x="1163" y="173" width="44" height="44" fill="none" stroke="#2461ec" stroke-width="1.4" opacity="0.3"/>
+    <rect x="950" y="320" width="55" height="55" fill="none" stroke="#14171c" stroke-width="1.4" opacity="0.2"/>
+    <rect x="1220" y="300" width="45" height="45" fill="none" stroke="#2461ec" stroke-width="1.6" opacity="0.4"/>
+    <rect x="1350" y="200" width="50" height="50" fill="none" stroke="#2461ec" stroke-width="1.5" opacity="0.38"/>
+    <line x1="700" y1="0" x2="1440" y2="600" stroke="#2461ec" stroke-width="1" opacity="0.12"/>
+  </svg>
+  <div class="hero-inner">
+    <span class="hero-eyebrow">SALES SOKUSHIN CONFERENCE</span>
+    <h1>セールスの力で、<br><span>ビジネスを前進させる</span>。</h1>
+    <p>株式会社セールス促進会議は、長崎を拠点に企業の営業・販売促進を支援するパートナーです。</p>
+
+    <div class="service-section">
+      <span class="service-eyebrow">NEW CONCEPT</span>
+      <h2 class="service-title">新しいテレビ局になるためのアイデア</h2>
+      <div class="service-grid">
+        <div class="service-card">
+          <span class="service-num">01</span>
+          <h3>4本CMパッケージ</h3>
+          <p>48,000円で4本のCMを販売。フォーマットCM付き。さらにYouTube広告5,000impをセットにすることで、効果の見える化を実現します。</p>
+          <div class="service-tags">
+            <span class="tag">¥48,000</span>
+            <span class="tag">CM×4本</span>
+            <span class="tag">YouTube 5,000imp</span>
+          </div>
+        </div>
+        <div class="service-card">
+          <span class="service-num">02</span>
+          <h3>「社長の名前、売りませんか？」CM</h3>
+          <p>社長自身を前面に打ち出したCM企画。販売価格・内容は4本CMパッケージとほぼ同程度です。</p>
+          <div class="service-tags">
+            <span class="tag">社長出演CM</span>
+            <span class="tag">同等価格帯</span>
+          </div>
+        </div>
+      </div>
+      <div class="service-notes">
+        <h4>ご利用にあたって</h4>
+        <ul>
+          <li>お申し込みはネットのみ受け付けております</li>
+          <li>業態考査が通らない場合はお断りする場合があります</li>
+          <li>入金確認後のご対応となります</li>
+          <li>基本はヘルプページをご参照ください。お電話でのサポートは17時まで</li>
+          <li>メール対応はございません</li>
+        </ul>
+      </div>
+    </div>
+    <a href="tel:0958431234" class="btn btn-primary">お電話でお問い合わせ　095-843-1234</a>
+  </div>
+</section>
+
+<section class="about">
+  <div class="wrap about-grid">
+    <div>
+      <span class="section-eyebrow">ABOUT US</span>
+      <h2>会社概要</h2>
+      <p class="about-lead">長崎から全国へ。<br>セールス促進のプロフェッショナルとして、貴社の成長を支えます。</p>
+    </div>
+    <table class="info-table">
+      <tr><th>商号</th><td>株式会社セールス促進会議</td></tr>
+      <tr><th>代表取締役</th><td>茂里 太郎</td></tr>
+      <tr><th>所在地</th><td>〒852-8104<br>長崎市茂里町3-2</td></tr>
+      <tr><th>電話番号</th><td><a href="tel:0958431234" style="color:var(--blue);">095-843-1234</a></td></tr>
+    </table>
+  </div>
+</section>
+
+<div class="cta-strip">
+  <div class="wrap">
+    <div>
+      <h3>まずはお気軽にご相談ください</h3>
+      <p>営業・販売促進に関するご相談、お見積りはお気軽にどうぞ。</p>
+    </div>
+    <div>
+      <p class="tel-label">TEL</p>
+      <a href="tel:0958431234" class="tel">095-843-1234</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <a href="#" class="logo-mark">
+        <svg width="32" height="32" viewBox="0 0 50 50">
+          <path d="M32 8 L16 42" fill="none" stroke="#c8cdd4" stroke-width="6" stroke-linecap="round"/>
+          <path d="M4 4 L46 46" fill="none" stroke="#14171c" stroke-width="10" stroke-linecap="round"/>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-en" style="font-size:14px;">SALES SOKUSHIN</span>
+          <span class="logo-jp">株式会社セールス促進会議</span>
+        </div>
+      </a>
+      <div class="footer-info">
+        <p>〒852-8104 長崎市茂里町3-2<br>TEL: 095-843-1234<br>代表取締役：茂里 太郎</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>長崎市茂里町3-2</p>
+      <p>&copy; 2026 Sales Promotion Conference Inc.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
