@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お申し込み｜株式会社セールス促進会議</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --black: #14171c;
+    --white: #ffffff;
+    --gray-light: #f4f5f7;
+    --gray-border: #e4e7eb;
+    --gray-text: #6b7280;
+    --blue: #2461ec;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    color: var(--black);
+    line-height: 1.7;
+    background: var(--white);
+  }
+
+  a { text-decoration: none; color: inherit; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--gray-border);
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 76px;
+  }
+  .logo-mark { display: flex; align-items: center; gap: 14px; }
+  .logo-text { display: flex; flex-direction: column; }
+  .logo-en {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+  }
+  .logo-jp { font-size: 10px; color: var(--gray-text); letter-spacing: 0.5px; margin-top: 2px; }
+  .header-contact {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-text);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .header-contact a { color: var(--black); font-weight: 700; font-size: 15px; }
+  .header-contact a:hover { color: var(--blue); }
+
+  /* Form page header */
+  .form-hero {
+    padding: 64px 0 40px;
+    border-bottom: 1px solid var(--gray-border);
+  }
+  .form-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--blue);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .form-hero h1 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .form-hero p {
+    font-size: 14.5px;
+    color: var(--gray-text);
+  }
+
+  /* Form */
+  .form-section { padding: 48px 0 96px; }
+  .field { margin-bottom: 28px; }
+  .field label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--black);
+  }
+  .field .optional {
+    font-weight: 500;
+    color: var(--gray-text);
+    font-size: 12px;
+    margin-left: 6px;
+  }
+  .field input,
+  .field textarea {
+    width: 100%;
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    padding: 12px 14px;
+    font-size: 14.5px;
+    font-family: inherit;
+    color: var(--black);
+    background: var(--white);
+    transition: border-color 0.15s ease;
+  }
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--blue);
+  }
+  .field textarea { resize: vertical; min-height: 100px; }
+  .char-count {
+    font-size: 12px;
+    color: var(--gray-text);
+    margin-top: 6px;
+    text-align: right;
+  }
+  .char-count.over { color: #d92d20; }
+
+  .submit-row {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--gray-border);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 16px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+  }
+  .btn-primary { background: var(--black); color: var(--white); }
+  .btn-primary:hover { background: var(--blue); }
+  .btn-primary:disabled { background: var(--gray-text); cursor: not-allowed; }
+
+  .form-note {
+    font-size: 12.5px;
+    color: var(--gray-text);
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  /* Success state */
+  .success-box {
+    display: none;
+    text-align: center;
+    padding: 80px 24px;
+  }
+  .success-box.show { display: block; }
+  .success-box h2 { font-size: 22px; margin-bottom: 14px; }
+  .success-box p { color: var(--gray-text); font-size: 14px; margin-bottom: 28px; }
+
+  /* Footer */
+  footer { padding: 32px 0; border-top: 1px solid var(--gray-border); }
+  .footer-bottom { display: flex; justify-content: center; }
+  .footer-bottom p { font-size: 12px; color: var(--gray-text); }
+
+  @media (max-width: 600px) {
+    .form-hero h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-mark">
+      <svg width="56" height="44" viewBox="0 0 80 60">
+        <text x="4" y="52" font-family="'Inter','Helvetica Neue',sans-serif" font-size="56" font-weight="700" fill="#c8cdd4">S</text>
+        <text x="24" y="52" font-family="'Inter','Helvetica Neue',sans-serif" font-size="56" font-weight="700" fill="#2461ec">S</text>
+      </svg>
+      <div class="logo-text">
+        <span class="logo-en">SALES SOKUSHIN</span>
+        <span class="logo-jp">株式会社セールス促進会議</span>
+      </div>
+    </a>
+    <div class="header-contact">
+      <span>お電話でのお問い合わせ</span>
+      <a href="tel:0958431234">095-843-1234</a>
+    </div>
+  </div>
+</header>
+
+<section class="form-hero">
+  <div class="wrap">
+    <span class="form-eyebrow">APPLICATION</span>
+    <h1>お申し込みフォーム</h1>
+    <p>必要事項をご入力の上、送信ボタンを押してください。<br>※印のない項目は任意でご記入いただけます。</p>
+  </div>
+</section>
+
+<section class="form-section">
+  <div class="wrap">
+
+    <form id="applyForm" action="https://formspree.io/f/xrewzerd" method="POST">
+
+      <div class="field">
+        <label for="company">会社名</label>
+        <input type="text" id="company" name="会社名">
+      </div>
+
+      <div class="field">
+        <label for="address">住所</label>
+        <input type="text" id="address" name="住所">
+      </div>
+
+      <div class="field">
+        <label for="tel">電話番号</label>
+        <input type="tel" id="tel" name="電話番号">
+      </div>
+
+      <div class="field">
+        <label for="overview">会社概要</label>
+        <textarea id="overview" name="会社概要" rows="4"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="founded">設立日</label>
+        <input type="text" id="founded" name="設立日" placeholder="例：2010年4月">
+      </div>
+
+      <div class="field">
+        <label for="revenue">年間売上</label>
+        <input type="text" id="revenue" name="年間売上" placeholder="例：5,000万円">
+      </div>
+
+      <div class="field">
+        <label for="ceo">代表者名</label>
+        <input type="text" id="ceo" name="代表者名">
+      </div>
+
+      <div class="field">
+        <label for="comment">15秒コメント<span class="optional">（50文字まで）</span></label>
+        <textarea id="comment" name="15秒コメント" rows="3" maxlength="50"></textarea>
+        <div class="char-count" id="charCount">0 / 50</div>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="btn btn-primary" id="submitBtn">送信する</button>
+        <p class="form-note">送信内容は tomonaga@ncctv.co.jp 宛に送信されます。</p>
+      </div>
+
+    </form>
+
+    <div class="success-box" id="successBox">
+      <h2>送信が完了しました</h2>
+      <p>お申し込みありがとうございました。内容を確認の上、担当者よりご連絡いたします。</p>
+      <a href="index.html" class="btn btn-primary" style="display:inline-flex;width:auto;padding:14px 28px;">トップページへ戻る</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-bottom">
+    <p>&copy; 2026 Sales Promotion Conference Inc.</p>
+  </div>
+</footer>
+
+<script>
+  const commentField = document.getElementById('comment');
+  const charCount = document.getElementById('charCount');
+  commentField.addEventListener('input', () => {
+    const len = commentField.value.length;
+    charCount.textContent = len + ' / 50';
+    charCount.classList.toggle('over', len >= 50);
+  });
+
+  const form = document.getElementById('applyForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successBox = document.getElementById('successBox');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送信中...';
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        form.style.display = 'none';
+        successBox.classList.add('show');
+      } else {
+        alert('送信に失敗しました。お手数ですが、お電話にてお問い合わせください。');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '送信する';
+      }
+    } catch (error) {
+      alert('送信に失敗しました。お手数ですが、お電話にてお問い合わせください。');
+      submitBtn.disabled = false;
+      submitBtn.textContent = '送信する';
+    }
+  });
+</script>
+
+</body>
+</html>
