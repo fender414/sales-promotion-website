@@ -276,18 +276,19 @@
     flex-wrap: wrap;
     gap: 8px;
   }
-.tag {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--blue);
-  border: 1px solid var(--blue);
-  border-radius: 4px;
-  padding: 6px 14px;
-}
+  .tag {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    border-radius: 4px;
+    padding: 6px 14px;
+  }
   .service-notes {
     background: var(--gray-light);
     border: 1px solid var(--gray-border);
     padding: 24px 28px;
+    margin-top: 36px;
   }
   .service-notes h4 {
     font-size: 13px;
@@ -315,67 +316,66 @@
     color: var(--blue);
     font-size: 12px;
   }
-.plan-section {
-  margin-top: 48px;
-}
-.plan-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--gray-border);
-  border: 1px solid var(--gray-border);
-}
-.plan-card {
-  background: var(--white);
-  padding: 28px 24px;
-  display: flex;
-  flex-direction: column;
-}
-.plan-letter {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--blue);
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-}
-.plan-price {
-  font-family: 'Inter', sans-serif;
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--black);
-  margin-bottom: 4px;
-}
-.plan-name {
-  font-size: 15px;
-  font-weight: 700;
-  margin-bottom: 14px;
-  color: var(--black);
-}
-.plan-features {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.plan-features li {
-  font-size: 13px;
-  color: var(--black);
-  padding-left: 14px;
-  position: relative;
-  line-height: 1.6;
-}
-.plan-features li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: var(--blue);
-  font-size: 11px;
-}
 
-@media (max-width: 760px) {
-  .plan-grid { grid-template-columns: 1fr; }
-}
+  /* Plan section */
+  .plan-section {
+    margin-top: 48px;
+  }
+  .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--gray-border);
+    border: 1px solid var(--gray-border);
+  }
+  .plan-card {
+    background: var(--white);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .plan-letter {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .plan-price {
+    font-family: 'Inter', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 4px;
+  }
+  .plan-name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--black);
+  }
+  .plan-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .plan-features li {
+    font-size: 13px;
+    color: var(--black);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .plan-features li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--blue);
+    font-size: 11px;
+  }
+
   /* Hamburger */
   .hamburger { display: none; }
 
@@ -384,6 +384,7 @@
     .about-grid { grid-template-columns: 1fr; }
     .cta-strip .wrap { flex-direction: column; align-items: flex-start; }
     .header-contact { display: none; }
+    .plan-grid { grid-template-columns: 1fr; }
 
     .hamburger {
       display: flex;
@@ -459,7 +460,7 @@
       <div class="service-grid">
         <div class="service-card">
           <span class="service-num">01</span>
-          <h3>48,000円からテレビCMが打てる！</h3>  
+          <h3>48,000円からテレビCMが打てる！</h3>
           <p>48,000円で4本のCMを販売。フォーマットCM付き。さらにYouTube広告5,000impをセットにすることで、効果の見える化を実現します。</p>
           <div class="service-tags">
             <span class="tag">¥48,000</span>
@@ -470,13 +471,52 @@
         <div class="service-card">
           <span class="service-num">02</span>
           <h3>「社長の名前、売りませんか？」</h3>
-          <p>社長自身を前面に打ち出したCM企画。48,000円から。内容は4本CMパッケージとほぼ同程度。</p>
+          <p>社長自身を前面に打ち出したCM企画。販売価格・内容は4本CMパッケージとほぼ同程度です。</p>
           <div class="service-tags">
             <span class="tag">社長出演CM</span>
             <span class="tag">同等価格帯</span>
           </div>
         </div>
       </div>
+
+      <div class="plan-section">
+        <span class="service-eyebrow">PLAN</span>
+        <h2 class="service-title">3つのプランからお選びいただけます</h2>
+        <div class="plan-grid">
+          <div class="plan-card">
+            <span class="plan-letter">PLAN A</span>
+            <div class="plan-price">¥10,000</div>
+            <h3 class="plan-name">協賛プラン</h3>
+            <ul class="plan-features">
+              <li>トコサタ協賛スポンサーとして毎回表示</li>
+            </ul>
+          </div>
+          <div class="plan-card">
+            <span class="plan-letter">PLAN B</span>
+            <div class="plan-price">¥48,000</div>
+            <h3 class="plan-name">CM放送プラン</h3>
+            <ul class="plan-features">
+              <li>CM4本（時間帯指定）</li>
+              <li>YouTube広告 5,000imp</li>
+              <li>リーチ数・インプレッションレポート付き</li>
+            </ul>
+          </div>
+          <div class="plan-card">
+            <span class="plan-letter">PLAN C</span>
+            <div class="plan-price">¥98,000</div>
+            <h3 class="plan-name">番組固定プラン</h3>
+            <ul class="plan-features">
+              <li>CM4本（時間帯指定）</li>
+              <li>YouTube広告 5,000imp</li>
+              <li>リーチ数・インプレッションレポート付き</li>
+              <li>番組固定が可能</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <a href="tel:0958431234" class="btn btn-primary" style="margin-top:36px;">お電話でお問い合わせ　095-843-1234</a>
+
       <div class="service-notes">
         <h4>ご利用にあたって</h4>
         <ul>
@@ -486,43 +526,8 @@
           <li>基本はヘルプページをご参照ください。お電話でのサポートは17時まで</li>
           <li>メール対応は行なっておりません</li>
         </ul>
-      </div><div class="plan-section">
-  <span class="service-eyebrow">PLAN</span>
-  <h2 class="service-title">3つのプランからお選びいただけます</h2>
-  <div class="plan-grid">
-    <div class="plan-card">
-      <span class="plan-letter">PLAN A</span>
-      <div class="plan-price">¥10,000</div>
-      <h3 class="plan-name">協賛プラン</h3>
-      <ul class="plan-features">
-        <li>トコサタ協賛スポンサーとして毎回表示</li>
-      </ul>
+      </div>
     </div>
-    <div class="plan-card">
-      <span class="plan-letter">PLAN B</span>
-      <div class="plan-price">¥48,000</div>
-      <h3 class="plan-name">CM放送プラン</h3>
-      <ul class="plan-features">
-        <li>CM4本（時間帯指定）</li>
-        <li>YouTube広告 5,000imp</li>
-        <li>リーチ数・インプレッションレポート付き</li>
-      </ul>
-    </div>
-    <div class="plan-card">
-      <span class="plan-letter">PLAN C</span>
-      <div class="plan-price">¥98,000</div>
-      <h3 class="plan-name">番組固定プラン</h3>
-      <ul class="plan-features">
-        <li>CM4本（時間帯指定）</li>
-        <li>YouTube広告 5,000imp</li>
-        <li>リーチ数・インプレッションレポート付き</li>
-        <li>番組固定が可能</li>
-      </ul>
-    </div>
-  </div>
-</div>
-    </div>
-    <a href="tel:0958431234" class="btn btn-primary">お電話でお問い合わせ　095-843-1234</a>
   </div>
 </section>
 
