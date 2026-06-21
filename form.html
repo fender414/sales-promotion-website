@@ -131,6 +131,25 @@
     text-align: right;
   }
   .char-count.over { color: #d92d20; }
+  .radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.radio-option input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--blue);
+  cursor: pointer;
+}
 
   .submit-row {
     margin-top: 40px;
@@ -256,6 +275,28 @@
         <textarea id="comment" name="15秒コメント" rows="3" maxlength="50"></textarea>
         <div class="char-count" id="charCount">0 / 50</div>
       </div>
+      <div class="field">
+  <label>ご希望曜日<span class="optional">（1応募につき1つまで）</span></label>
+  <div class="radio-group">
+    <label class="radio-option"><input type="radio" name="ご希望曜日" value="月曜"> 月曜</label>
+    <label class="radio-option"><input type="radio" name="ご希望曜日" value="火曜"> 火曜</label>
+    <label class="radio-option"><input type="radio" name="ご希望曜日" value="水曜"> 水曜</label>
+    <label class="radio-option"><input type="radio" name="ご希望曜日" value="木曜"> 木曜</label>
+    <label class="radio-option"><input type="radio" name="ご希望曜日" value="金曜"> 金曜</label>
+  </div>
+</div>
+
+<div class="field">
+  <label>ご希望の時間帯<span class="optional">（1応募につき1つまで）</span></label>
+  <div class="radio-group">
+    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="6:00〜8:00"> 6:00〜8:00</label>
+    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="8:00〜10:00"> 8:00〜10:00</label>
+    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="12:00〜14:00"> 12:00〜14:00</label>
+    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="14:00〜16:00"> 14:00〜16:00</label>
+    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="16:00〜18:00"> 16:00〜18:00</label>
+    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="24:00〜25:00"> 24:00〜25:00</label>
+  </div>
+</div>
 
       <div class="submit-row">
         <button type="submit" class="btn btn-primary" id="submitBtn">送信する</button>
