@@ -333,6 +333,7 @@
     padding: 28px 24px;
     display: flex;
     flex-direction: column;
+    position: relative;
   }
   .plan-letter {
     font-family: 'Inter', sans-serif;
@@ -375,6 +376,18 @@
     color: var(--blue);
     font-size: 11px;
   }
+  .plan-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--blue);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-bottom-left-radius: 6px;
+  letter-spacing: 0.5px;
+}
 
   /* Hamburger */
   .hamburger { display: none; }
@@ -484,6 +497,7 @@
         <h2 class="service-title">3つのプランからお選びいただけます</h2>
         <div class="plan-grid">
           <div class="plan-card">
+            <span class="plan-badge">限定20口</span>
             <span class="plan-letter">PLAN A</span>
             <div class="plan-price">¥10,000</div>
             <h3 class="plan-name">協賛プラン</h3>
@@ -492,6 +506,7 @@
             </ul>
           </div>
           <div class="plan-card">
+            <span class="plan-badge">限定50口</span>
             <span class="plan-letter">PLAN B</span>
             <div class="plan-price">¥48,000</div>
             <h3 class="plan-name">CM放送プラン</h3>
@@ -503,6 +518,7 @@
             </ul>
           </div>
           <div class="plan-card">
+            <span class="plan-badge">限定20口</span>
             <span class="plan-letter">PLAN C</span>
             <div class="plan-price">¥98,000</div>
             <h3 class="plan-name">番組固定プラン</h3>
