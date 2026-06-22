@@ -89,6 +89,51 @@
     .form-hero h1 { font-size: 24px; }
     .image-select-grid { grid-template-columns: 1fr; }
   }
+  /* プレビューモーダル */
+.preview-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: #000;
+}
+.preview-overlay.show { display: block; }
+.preview-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.85;
+}
+.preview-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.preview-close:hover { background: rgba(255,255,255,0.3); }
+.preview-label {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
 </style>
 </head>
 <body>
@@ -281,13 +326,23 @@
           </div>
         </div>
       </div>
-
+<div style="margin-top:32px;">
+  <button type="button" class="btn" id="previewBtn" style="background:var(--blue); color:var(--white); margin-bottom:12px;">
+    イメージをプレビューする
+  </button>
+</div>
       <div class="submit-row">
         <button type="submit" class="btn btn-primary" id="submitBtn">送信する</button>
         <p class="form-note">送信内容は tomonaga@ncctv.co.jp 宛に送信されます。</p>
       </div>
 
     </form>
+    <!-- プレビューオーバーレイ -->
+<div class="preview-overlay" id="previewOverlay">
+  <div class="preview-bg" id="previewBg"></div>
+  <button class="preview-close" id="previewClose">×</button>
+  <div class="preview-label" id="previewLabel"></div>
+</div>
 
     <div class="success-box" id="successBox">
       <h2>送信が完了しました</h2>
@@ -357,6 +412,79 @@
       submitBtn.textContent = '送信する';
     }
   });
+  // 背景画像のパスマップ
+const bgMap = {
+  'パターン1：ビジネス': '画像/bg-1.jpg',
+  'パターン2：長崎夜景': '画像/bg-2.jpg',
+  'パターン3：長崎昼景': '画像/bg-3.jpg',
+};
+
+const previewBtn = document.getElementById('previewBtn');
+const previewOverlay = document.getElementById('previewOverlay');
+const previewBg = document.getElementById('previewBg');
+const previewClose = document.getElementById('previewClose');
+const previewLabel = document.getElementById('previewLabel');
+
+let previewBgmAudio = null;
+let previewNarAudio = null;
+
+previewBtn.addEventListener('click', () => {
+  // 選択値を取得
+  const bgVal = document.querySelector('input[name="背景画像"]:checked')?.value;
+  const bgmVal = document.querySelector('input[name="BGM"]:checked')?.value;
+  const narVal = document.querySelector('input[name="ナレーション"]:checked')?.value;
+
+  if (!bgVal && !bgmVal && !narVal) {
+    alert('背景画像・BGM・ナレーションのいずれかを選んでからプレビューしてください。');
+    return;
+  }
+
+  // 背景画像をセット
+  if (bgVal && bgMap[bgVal]) {
+    previewBg.style.backgroundImage = 'url(' + bgMap[bgVal] + ')';
+  } else {
+    previewBg.style.backgroundImage = 'none';
+    previewBg.style.background = '#1a1a2e';
+  }
+
+  // BGM再生
+  const bgmSrcMap = {
+    'BGMパターン1': 'audio/bgm-1.mp3',
+    'BGMパターン2': 'audio/bgm-2.mp3',
+    'BGMパターン3': 'audio/bgm-3.mp3',
+  };
+  if (bgmVal && bgmSrcMap[bgmVal]) {
+    previewBgmAudio = new Audio(bgmSrcMap[bgmVal]);
+    previewBgmAudio.volume = 0.4;
+    previewBgmAudio.loop = true;
+    previewBgmAudio.play();
+  }
+
+  // ナレーション再生
+  const narSrcMap = {
+    'ナレーションパターン1': 'audio/narration-1.mp3',
+    'ナレーションパターン2': 'audio/narration-2.mp3',
+    'ナレーションパターン3': 'audio/narration-3.mp3',
+  };
+  if (narVal && narSrcMap[narVal]) {
+    previewNarAudio = new Audio(narSrcMap[narVal]);
+    previewNarAudio.volume = 1.0;
+    previewNarAudio.play();
+  }
+
+  // ラベル表示
+  const labels = [bgVal, bgmVal, narVal].filter(Boolean).join(' / ');
+  previewLabel.textContent = labels;
+
+  previewOverlay.classList.add('show');
+});
+
+// 閉じる
+previewClose.addEventListener('click', () => {
+  previewOverlay.classList.remove('show');
+  if (previewBgmAudio) { previewBgmAudio.pause(); previewBgmAudio = null; }
+  if (previewNarAudio) { previewNarAudio.pause(); previewNarAudio = null; }
+});
 </script>
 
 </body>
