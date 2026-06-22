@@ -387,7 +387,6 @@
   const form = document.getElementById('applyForm');
   const submitBtn = document.getElementById('submitBtn');
   const successBox = document.getElementById('successBox');
-
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     submitBtn.disabled = true;
@@ -412,107 +411,96 @@
       submitBtn.textContent = '送信する';
     }
   });
-  // 背景画像のパスマップ
-const bgMap = {
-  'パターン1：ビジネス': ['images/bg-1.jpg', encodeURI('画像/bg-1b.jpg')],
-  'パターン2：長崎夜景': ['images/bg-2.jpg', encodeURI('画像/bg-2b.jpg')],
-  'パターン3：長崎昼景': ['images/bg-3.jpg', encodeURI('画像/bg-3b.jpg')],
-};
 
-const previewBtn = document.getElementById('previewBtn');
-const previewOverlay = document.getElementById('previewOverlay');
-const previewBg = document.getElementById('previewBg');
-const previewClose = document.getElementById('previewClose');
-const previewLabel = document.getElementById('previewLabel');
-
-let previewBgmAudio = null;
-let previewNarAudio = null;
-
-previewBtn.addEventListener('click', () => {
-  // 選択値を取得
-  const bgVal = document.querySelector('input[name="背景画像"]:checked')?.value;
-  const bgmVal = document.querySelector('input[name="BGM"]:checked')?.value;
-  const narVal = document.querySelector('input[name="ナレーション"]:checked')?.value;
-
-  if (!bgVal && !bgmVal && !narVal) {
-    alert('背景画像・BGM・ナレーションのいずれかを選んでからプレビューしてください。');
-    return;
-  }
-
-  // 背景画像をセット
-if (bgVal && bgMap[bgVal]) {
-  const [imgA] = bgMap[bgVal];
-  previewBg.style.backgroundImage = 'url(' + imgA + ')';
-  previewBg.style.opacity = '0.85';
-}
-  if (previewNarAudio) {
-    previewNarAudio.addEventListener('ended', () => {
-      previewBg.style.transition = 'opacity 1.5s ease';
-      previewBg.style.opacity = '0';
-      setTimeout(() => {
-        previewBg.style.backgroundImage = 'url(' + imgB + ')';
-        previewBg.style.transition = 'opacity 1.5s ease';
-        previewBg.style.opacity = '0.85';
-      }, 1500);
-    }, { once: true });
-  }
-} else {
-  previewBg.style.backgroundImage = 'none';
-  previewBg.style.background = '#1a1a2e';
-}
-
-  // BGM再生
-  const bgmSrcMap = {
-    'BGMパターン1': 'audio/bgm-1.mp3',
-    'BGMパターン2': 'audio/bgm-2.mp3',
-    'BGMパターン3': 'audio/bgm-3.mp3',
+  // 背景画像のパスマップ（A:1枚目、B:2枚目）
+  const bgMap = {
+    'パターン1：ビジネス': ['images/bg-1.jpg', encodeURI('画像/bg-1b.jpg')],
+    'パターン2：長崎夜景': ['images/bg-2.jpg', encodeURI('画像/bg-2b.jpg')],
+    'パターン3：長崎昼景': ['images/bg-3.jpg', encodeURI('画像/bg-3b.jpg')],
   };
-  if (bgmVal && bgmSrcMap[bgmVal]) {
-    previewBgmAudio = new Audio(bgmSrcMap[bgmVal]);
-    previewBgmAudio.volume = 0.4;
-    previewBgmAudio.loop = true;
-    previewBgmAudio.play();
-  }
 
-  // ナレーション再生
-  const narSrcMap = {
-    'ナレーションパターン1': 'audio/narration-1.mp3',
-    'ナレーションパターン2': 'audio/narration-2.mp3',
-    'ナレーションパターン3': 'audio/narration-3.mp3',
-  };
-  if (narVal && narSrcMap[narVal]) {
+  const previewBtn = document.getElementById('previewBtn');
+  const previewOverlay = document.getElementById('previewOverlay');
+  const previewBg = document.getElementById('previewBg');
+  const previewClose = document.getElementById('previewClose');
+  const previewLabel = document.getElementById('previewLabel');
+
+  let previewBgmAudio = null;
+  let previewNarAudio = null;
+
+  previewBtn.addEventListener('click', () => {
+    const bgVal = document.querySelector('input[name="背景画像"]:checked')?.value;
+    const bgmVal = document.querySelector('input[name="BGM"]:checked')?.value;
+    const narVal = document.querySelector('input[name="ナレーション"]:checked')?.value;
+
+    if (!bgVal && !bgmVal && !narVal) {
+      alert('背景画像・BGM・ナレーションのいずれかを選んでからプレビューしてください。');
+      return;
+    }
+
+    // 1枚目の背景画像をセット
+    if (bgVal && bgMap[bgVal]) {
+      const [imgA] = bgMap[bgVal];
+      previewBg.style.backgroundImage = 'url(' + imgA + ')';
+      previewBg.style.opacity = '0.85';
+      previewBg.style.transition = 'none';
+    } else {
+      previewBg.style.backgroundImage = 'none';
+      previewBg.style.background = '#1a1a2e';
+    }
+
+    // BGM再生
+    const bgmSrcMap = {
+      'BGMパターン1': 'audio/bgm-1.mp3',
+      'BGMパターン2': 'audio/bgm-2.mp3',
+      'BGMパターン3': 'audio/bgm-3.mp3',
+    };
+    if (bgmVal && bgmSrcMap[bgmVal]) {
+      previewBgmAudio = new Audio(bgmSrcMap[bgmVal]);
+      previewBgmAudio.volume = 0.4;
+      previewBgmAudio.loop = true;
+      previewBgmAudio.play();
+    }
+
+    // ナレーション再生 → 終了時に2枚目へフェード
+    const narSrcMap = {
+      'ナレーションパターン1': 'audio/narration-1.mp3',
+      'ナレーションパターン2': 'audio/narration-2.mp3',
+      'ナレーションパターン3': 'audio/narration-3.mp3',
+    };
     if (narVal && narSrcMap[narVal]) {
-  previewNarAudio = new Audio(narSrcMap[narVal]);
-  previewNarAudio.volume = 1.0;
-  previewNarAudio.play();
+      previewNarAudio = new Audio(narSrcMap[narVal]);
+      previewNarAudio.volume = 1.0;
+      previewNarAudio.play();
 
-  // ナレーション終了時に2枚目へフェード
-  if (bgVal && bgMap[bgVal]) {
-    const [imgA, imgB] = bgMap[bgVal];
-    previewNarAudio.addEventListener('ended', () => {
-      previewBg.style.transition = 'opacity 1.5s ease';
-      previewBg.style.opacity = '0';
-      setTimeout(() => {
-        previewBg.style.backgroundImage = 'url(' + imgB + ')';
-        previewBg.style.transition = 'opacity 1.5s ease';
-        previewBg.style.opacity = '0.85';
-      }, 1500);
-    }, { once: true });
-  }
-}
-  // ラベル表示
-  const labels = [bgVal, bgmVal, narVal].filter(Boolean).join(' / ');
-  previewLabel.textContent = labels;
+      // ナレーション終了後に2枚目へフェード
+      if (bgVal && bgMap[bgVal]) {
+        const [imgA, imgB] = bgMap[bgVal];
+        previewNarAudio.addEventListener('ended', () => {
+          previewBg.style.transition = 'opacity 1.5s ease';
+          previewBg.style.opacity = '0';
+          setTimeout(() => {
+            previewBg.style.backgroundImage = 'url(' + imgB + ')';
+            previewBg.style.transition = 'opacity 1.5s ease';
+            previewBg.style.opacity = '0.85';
+          }, 1500);
+        }, { once: true });
+      }
+    }
 
-  previewOverlay.classList.add('show');
-});
+    // ラベル表示
+    const labels = [bgVal, bgmVal, narVal].filter(Boolean).join(' / ');
+    previewLabel.textContent = labels;
 
-// 閉じる
-previewClose.addEventListener('click', () => {
-  previewOverlay.classList.remove('show');
-  if (previewBgmAudio) { previewBgmAudio.pause(); previewBgmAudio = null; }
-  if (previewNarAudio) { previewNarAudio.pause(); previewNarAudio = null; }
-});
+    previewOverlay.classList.add('show');
+  });
+
+  // 閉じる
+  previewClose.addEventListener('click', () => {
+    previewOverlay.classList.remove('show');
+    if (previewBgmAudio) { previewBgmAudio.pause(); previewBgmAudio = null; }
+    if (previewNarAudio) { previewNarAudio.pause(); previewNarAudio = null; }
+  });
 </script>
 
 </body>
