@@ -171,48 +171,100 @@
     <form id="applyForm" action="https://formspree.io/f/xrewzerd" method="POST">
 
       <div class="field">
-        <label for="company">会社名</label>
-        <input type="text" id="company" name="会社名">
-      </div>
-      <div class="field">
-        <label for="address">住所</label>
-        <input type="text" id="address" name="住所">
-      </div>
-      <div class="field">
-        <label for="tel">電話番号</label>
-        <input type="tel" id="tel" name="電話番号">
-      </div>
-      <div class="field">
-        <label for="overview">会社概要</label>
-        <textarea id="overview" name="会社概要" rows="4"></textarea>
-      </div>
-      <div class="field">
-        <label for="founded">設立日</label>
-        <input type="text" id="founded" name="設立日" placeholder="例：2010年4月">
-      </div>
-      <div class="field">
-        <label for="revenue">年間売上</label>
-        <input type="text" id="revenue" name="年間売上" placeholder="例：5,000万円">
-      </div>
-      <div class="field">
-        <label for="ceo">代表者名</label>
-        <input type="text" id="ceo" name="代表者名">
-      </div>
-      <div class="field">
-        <label for="comment">15秒コメント<span class="optional">（50文字まで）</span></label>
-        <textarea id="comment" name="15秒コメント" rows="3" maxlength="50"></textarea>
-        <div class="char-count" id="charCount">0 / 50</div>
-      </div>
-      <div class="field">
-        <label>ご希望曜日<span class="optional">（1応募につき1つまで）</span></label>
-        <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="ご希望曜日" value="月曜"> 月曜</label>
-          <label class="radio-option"><input type="radio" name="ご希望曜日" value="火曜"> 火曜</label>
-          <label class="radio-option"><input type="radio" name="ご希望曜日" value="水曜"> 水曜</label>
-          <label class="radio-option"><input type="radio" name="ご希望曜日" value="木曜"> 木曜</label>
-          <label class="radio-option"><input type="radio" name="ご希望曜日" value="金曜"> 金曜</label>
-        </div>
-      </div>
+  <label>背景画像 1枚目<span class="optional">（1つ選んでください）</span></label>
+  <div class="image-select-grid">
+    <div class="image-select-item">
+      <input type="radio" name="背景画像1枚目" id="bg1a" value="images/bg-1.jpg">
+      <label for="bg1a">
+        <img src="images/bg-1.jpg" alt="パターン1">
+        <div class="image-label">パターン1</div>
+      </label>
+    </div>
+    <div class="image-select-item">
+      <input type="radio" name="背景画像1枚目" id="bg2a" value="images/bg-2.jpg">
+      <label for="bg2a">
+        <img src="images/bg-2.jpg" alt="パターン2">
+        <div class="image-label">パターン2</div>
+      </label>
+    </div>
+    <div class="image-select-item">
+      <input type="radio" name="背景画像1枚目" id="bg3a" value="images/bg-3.jpg">
+      <label for="bg3a">
+        <img src="images/bg-3.jpg" alt="パターン3">
+        <div class="image-label">パターン3</div>
+      </label>
+    </div>
+    <div class="image-select-item">
+      <input type="radio" name="背景画像1枚目" id="bg4a" value="画像/bg-1b.jpg">
+      <label for="bg4a">
+        <img src="画像/bg-1b.jpg" alt="パターン4">
+        <div class="image-label">パターン4</div>
+      </label>
+    </div>
+    <div class="image-select-item">
+      <input type="radio" name="背景画像1枚目" id="bg5a" value="画像/bg-2b.jpg">
+      <label for="bg5a">
+        <img src="画像/bg-2b.jpg" alt="パターン5">
+        <div class="image-label">パターン5</div>
+      </label>
+    </div>
+    <div class="image-select-item">
+      <input type="radio" name="背景画像1枚目" id="bg6a" value="画像/bg-3b.jpg">
+      <label for="bg6a">
+        <img src="画像/bg-3b.jpg" alt="パターン6">
+        <div class="image-label">パターン6</div>
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class="field">
+  <label>背景画像 2枚目<span class="optional">（1つ選んでください）</span></label>
+  <div class="image-select-grid">
+    <div class="image-select-item">
+      <input type="radio" name="背景画像2枚目" id="bg1b" value="images/bg-1.jpg">
+      <label for="bg1b">
+        <img src="images/bg-1.jpg" alt="パターン1">
+        <div class="image-label">パターン1</div>
+      </label>
+    </div>
+    <div class="image-select-item">
+      <input type="radio" name="背景画像2枚目" id="bg2b" value="images/bg-2.jpg">
+      <label for="bg2b">
+        <img src="images/bg-2.jpg" alt="パターン2">
+        <div class="image-label">パターン2</div>
+      </label>
+    </div>
+    <div class="image-select-item">
+      <input type="radio" name="背景画像2枚目" id="bg3b" value="images/bg-3.jpg">
+      <label for="bg3b">
+        <img src="images/bg-3.jpg" alt="パターン3">
+        <div class="image-label">パターン3</div>
+      </label>
+    </div>
+    <div class="image-select-item">
+      <input type="radio" name="背景画像2枚目" id="bg4b" value="画像/bg-1b.jpg">
+      <label for="bg4b">
+        <img src="画像/bg-1b.jpg" alt="パターン4">
+        <div class="image-label">パターン4</div>
+      </label>
+    </div>
+    <div class="image-select-item">
+      <input type="radio" name="背景画像2枚目" id="bg5b" value="画像/bg-2b.jpg">
+      <label for="bg5b">
+        <img src="画像/bg-2b.jpg" alt="パターン5">
+        <div class="image-label">パターン5</div>
+      </label>
+    </div>
+    <div class="image-select-item">
+      <input type="radio" name="背景画像2枚目" id="bg6b" value="画像/bg-3b.jpg">
+      <label for="bg6b">
+        <img src="画像/bg-3b.jpg" alt="パターン6">
+        <div class="image-label">パターン6</div>
+      </label>
+    </div>
+  </div>
+</div>
       <div class="field">
         <label>ご希望の時間帯<span class="optional">（1応募につき1つまで）</span></label>
         <div class="radio-group">
@@ -429,25 +481,22 @@
   let previewNarAudio = null;
 
   previewBtn.addEventListener('click', () => {
-    const bgVal = document.querySelector('input[name="背景画像"]:checked')?.value;
-    const bgmVal = document.querySelector('input[name="BGM"]:checked')?.value;
-    const narVal = document.querySelector('input[name="ナレーション"]:checked')?.value;
+    const bg1Val = document.querySelector('input[name="背景画像1枚目"]:checked')?.value;
+const bg2Val = document.querySelector('input[name="背景画像2枚目"]:checked')?.value;
+const bgmVal = document.querySelector('input[name="BGM"]:checked')?.value;
+const narVal = document.querySelector('input[name="ナレーション"]:checked')?.value;
 
-    if (!bgVal && !bgmVal && !narVal) {
-      alert('背景画像・BGM・ナレーションのいずれかを選んでからプレビューしてください。');
-      return;
-    }
+if (!bg1Val && !bgmVal && !narVal) {
+  alert('背景画像・BGM・ナレーションのいずれかを選んでからプレビューしてください。');
+  return;
+}
 
-    // 1枚目の背景画像をセット
-    if (bgVal && bgMap[bgVal]) {
-      const [imgA] = bgMap[bgVal];
-      previewBg.style.backgroundImage = 'url(' + imgA + ')';
-      previewBg.style.opacity = '0.85';
-      previewBg.style.transition = 'none';
-    } else {
-      previewBg.style.backgroundImage = 'none';
-      previewBg.style.background = '#1a1a2e';
-    }
+// 1枚目の背景画像をセット
+if (bg1Val) {
+  previewBg.style.backgroundImage = 'url(' + encodeURI(bg1Val) + ')';
+  previewBg.style.opacity = '0.85';
+  previewBg.style.transition = 'none';
+}
 
     // BGM再生
     const bgmSrcMap = {
@@ -476,15 +525,17 @@
       // ナレーション終了後に2枚目へフェード
       if (bgVal && bgMap[bgVal]) {
         const [imgA, imgB] = bgMap[bgVal];
-        previewNarAudio.addEventListener('ended', () => {
-          previewBg.style.transition = 'opacity 1.5s ease';
-          previewBg.style.opacity = '0';
-          setTimeout(() => {
-            previewBg.style.backgroundImage = 'url(' + imgB + ')';
-            previewBg.style.transition = 'opacity 1.5s ease';
-            previewBg.style.opacity = '0.85';
-          }, 1500);
-        }, { once: true });
+       previewNarAudio.addEventListener('ended', () => {
+  if (bg2Val) {
+    previewBg.style.transition = 'opacity 1.5s ease';
+    previewBg.style.opacity = '0';
+    setTimeout(() => {
+      previewBg.style.backgroundImage = 'url(' + encodeURI(bg2Val) + ')';
+      previewBg.style.transition = 'opacity 1.5s ease';
+      previewBg.style.opacity = '0.85';
+    }, 1500);
+  }
+}, { once: true });
       }
     }
 
