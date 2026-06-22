@@ -17,187 +17,77 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Noto Sans JP', 'Inter', sans-serif;
-    color: var(--black);
-    line-height: 1.7;
-    background: var(--white);
-  }
-
+  body { font-family: 'Noto Sans JP', 'Inter', sans-serif; color: var(--black); line-height: 1.7; background: var(--white); }
   a { text-decoration: none; color: inherit; }
   .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
 
-  /* Header */
-  header {
-    position: sticky;
-    top: 0;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(6px);
-    border-bottom: 1px solid var(--gray-border);
-    z-index: 100;
-  }
-  .header-inner {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 76px;
-  }
+  header { position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(6px); border-bottom: 1px solid var(--gray-border); z-index: 100; }
+  .header-inner { max-width: 1080px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 76px; }
   .logo-mark { display: flex; align-items: center; gap: 14px; }
   .logo-text { display: flex; flex-direction: column; }
-  .logo-en {
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-  }
+  .logo-en { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 1.5px; }
   .logo-jp { font-size: 10px; color: var(--gray-text); letter-spacing: 0.5px; margin-top: 2px; }
-  .header-contact {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-text);
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
+  .header-contact { font-size: 13px; font-weight: 500; color: var(--gray-text); display: flex; align-items: center; gap: 20px; }
   .header-contact a { color: var(--black); font-weight: 700; font-size: 15px; }
   .header-contact a:hover { color: var(--blue); }
 
-  /* Form page header */
-  .form-hero {
-    padding: 64px 0 40px;
-    border-bottom: 1px solid var(--gray-border);
-  }
-  .form-eyebrow {
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    color: var(--blue);
-    margin-bottom: 14px;
-    display: block;
-  }
-  .form-hero h1 {
-    font-size: 30px;
-    font-weight: 700;
-    margin-bottom: 16px;
-  }
-  .form-hero p {
-    font-size: 14.5px;
-    color: var(--gray-text);
-  }
+  .form-hero { padding: 64px 0 40px; border-bottom: 1px solid var(--gray-border); }
+  .form-eyebrow { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 3px; color: var(--blue); margin-bottom: 14px; display: block; }
+  .form-hero h1 { font-size: 30px; font-weight: 700; margin-bottom: 16px; }
+  .form-hero p { font-size: 14.5px; color: var(--gray-text); }
 
-  /* Form */
   .form-section { padding: 48px 0 96px; }
   .field { margin-bottom: 28px; }
-  .field label {
-    display: block;
-    font-size: 13.5px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--black);
-  }
-  .field .optional {
-    font-weight: 500;
-    color: var(--gray-text);
-    font-size: 12px;
-    margin-left: 6px;
-  }
-  .field input,
-  .field textarea {
-    width: 100%;
-    border: 1px solid var(--gray-border);
-    border-radius: 4px;
-    padding: 12px 14px;
-    font-size: 14.5px;
-    font-family: inherit;
-    color: var(--black);
-    background: var(--white);
-    transition: border-color 0.15s ease;
-  }
-  .field input:focus,
-  .field textarea:focus {
-    outline: none;
-    border-color: var(--blue);
-  }
+  .field > label { display: block; font-size: 13.5px; font-weight: 700; margin-bottom: 8px; color: var(--black); }
+  .field .optional { font-weight: 500; color: var(--gray-text); font-size: 12px; margin-left: 6px; }
+  .field input, .field textarea { width: 100%; border: 1px solid var(--gray-border); border-radius: 4px; padding: 12px 14px; font-size: 14.5px; font-family: inherit; color: var(--black); background: var(--white); transition: border-color 0.15s ease; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--blue); }
   .field textarea { resize: vertical; min-height: 100px; }
-  .char-count {
-    font-size: 12px;
-    color: var(--gray-text);
-    margin-top: 6px;
-    text-align: right;
-  }
+  .char-count { font-size: 12px; color: var(--gray-text); margin-top: 6px; text-align: right; }
   .char-count.over { color: #d92d20; }
-  .radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.radio-option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-}
-.radio-option input[type="radio"] {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--blue);
-  cursor: pointer;
-}
 
-  .submit-row {
-    margin-top: 40px;
-    padding-top: 32px;
-    border-top: 1px solid var(--gray-border);
-  }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 16px 28px;
-    font-size: 15px;
-    font-weight: 700;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    font-family: inherit;
-  }
+  .radio-group { display: flex; flex-direction: column; gap: 10px; }
+  .radio-option { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; cursor: pointer; }
+  .radio-option input[type="radio"] { width: 16px; height: 16px; accent-color: var(--blue); cursor: pointer; }
+
+  .form-section-title { font-size: 16px; font-weight: 700; color: var(--black); margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid var(--blue); margin-top: 48px; }
+  .form-section-title span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: var(--blue); letter-spacing: 2px; display: block; margin-bottom: 4px; }
+
+  .image-select-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .image-select-item { position: relative; cursor: pointer; }
+  .image-select-item input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .image-select-item label { display: block; cursor: pointer; }
+  .image-select-item img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 4px; border: 3px solid transparent; transition: border-color 0.15s ease; }
+  .image-select-item input[type="radio"]:checked + label img { border-color: var(--blue); }
+  .image-label { font-size: 12px; font-weight: 600; color: var(--gray-text); text-align: center; margin-top: 6px; }
+  .image-select-item input[type="radio"]:checked + label .image-label { color: var(--blue); }
+
+  .audio-select-list { display: flex; flex-direction: column; gap: 12px; }
+  .audio-select-item { border: 1px solid var(--gray-border); border-radius: 4px; padding: 14px 16px; transition: border-color 0.15s ease; }
+  .audio-select-item.selected { border-color: var(--blue); background: #f0f4ff; }
+  .audio-item-label { display: flex; align-items: center; gap: 12px; cursor: pointer; font-size: 13.5px; font-weight: 700; margin-bottom: 10px; }
+  .audio-item-label input[type="radio"] { width: 16px; height: 16px; accent-color: var(--blue); flex-shrink: 0; }
+  .audio-select-item audio { width: 100%; height: 36px; }
+
+  .submit-row { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--gray-border); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 16px 28px; font-size: 15px; font-weight: 700; border-radius: 4px; border: none; cursor: pointer; transition: all 0.15s ease; font-family: inherit; }
   .btn-primary { background: var(--black); color: var(--white); }
   .btn-primary:hover { background: var(--blue); }
   .btn-primary:disabled { background: var(--gray-text); cursor: not-allowed; }
+  .form-note { font-size: 12.5px; color: var(--gray-text); margin-top: 16px; text-align: center; }
 
-  .form-note {
-    font-size: 12.5px;
-    color: var(--gray-text);
-    margin-top: 16px;
-    text-align: center;
-  }
-
-  /* Success state */
-  .success-box {
-    display: none;
-    text-align: center;
-    padding: 80px 24px;
-  }
+  .success-box { display: none; text-align: center; padding: 80px 24px; }
   .success-box.show { display: block; }
   .success-box h2 { font-size: 22px; margin-bottom: 14px; }
   .success-box p { color: var(--gray-text); font-size: 14px; margin-bottom: 28px; }
 
-  /* Footer */
   footer { padding: 32px 0; border-top: 1px solid var(--gray-border); }
   .footer-bottom { display: flex; justify-content: center; }
   .footer-bottom p { font-size: 12px; color: var(--gray-text); }
 
   @media (max-width: 600px) {
     .form-hero h1 { font-size: 24px; }
+    .image-select-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -239,64 +129,158 @@
         <label for="company">会社名</label>
         <input type="text" id="company" name="会社名">
       </div>
-
       <div class="field">
         <label for="address">住所</label>
         <input type="text" id="address" name="住所">
       </div>
-
       <div class="field">
         <label for="tel">電話番号</label>
         <input type="tel" id="tel" name="電話番号">
       </div>
-
       <div class="field">
         <label for="overview">会社概要</label>
         <textarea id="overview" name="会社概要" rows="4"></textarea>
       </div>
-
       <div class="field">
         <label for="founded">設立日</label>
         <input type="text" id="founded" name="設立日" placeholder="例：2010年4月">
       </div>
-
       <div class="field">
         <label for="revenue">年間売上</label>
         <input type="text" id="revenue" name="年間売上" placeholder="例：5,000万円">
       </div>
-
       <div class="field">
         <label for="ceo">代表者名</label>
         <input type="text" id="ceo" name="代表者名">
       </div>
-
       <div class="field">
         <label for="comment">15秒コメント<span class="optional">（50文字まで）</span></label>
         <textarea id="comment" name="15秒コメント" rows="3" maxlength="50"></textarea>
         <div class="char-count" id="charCount">0 / 50</div>
       </div>
       <div class="field">
-  <label>ご希望曜日<span class="optional">（1応募につき1つまで）</span></label>
-  <div class="radio-group">
-    <label class="radio-option"><input type="radio" name="ご希望曜日" value="月曜"> 月曜</label>
-    <label class="radio-option"><input type="radio" name="ご希望曜日" value="火曜"> 火曜</label>
-    <label class="radio-option"><input type="radio" name="ご希望曜日" value="水曜"> 水曜</label>
-    <label class="radio-option"><input type="radio" name="ご希望曜日" value="木曜"> 木曜</label>
-    <label class="radio-option"><input type="radio" name="ご希望曜日" value="金曜"> 金曜</label>
-  </div>
-</div>
+        <label>ご希望曜日<span class="optional">（1応募につき1つまで）</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="月曜"> 月曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="火曜"> 火曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="水曜"> 水曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="木曜"> 木曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="金曜"> 金曜</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>ご希望の時間帯<span class="optional">（1応募につき1つまで）</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="6:00〜8:00"> 6:00〜8:00</label>
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="8:00〜10:00"> 8:00〜10:00</label>
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="12:00〜14:00"> 12:00〜14:00</label>
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="14:00〜16:00"> 14:00〜16:00</label>
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="16:00〜18:00"> 16:00〜18:00</label>
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="24:00〜25:00"> 24:00〜25:00</label>
+        </div>
+      </div>
 
-<div class="field">
-  <label>ご希望の時間帯<span class="optional">（1応募につき1つまで）</span></label>
-  <div class="radio-group">
-    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="6:00〜8:00"> 6:00〜8:00</label>
-    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="8:00〜10:00"> 8:00〜10:00</label>
-    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="12:00〜14:00"> 12:00〜14:00</label>
-    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="14:00〜16:00"> 14:00〜16:00</label>
-    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="16:00〜18:00"> 16:00〜18:00</label>
-    <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="24:00〜25:00"> 24:00〜25:00</label>
-  </div>
-</div>
+      <!-- CM素材選択 -->
+      <h2 class="form-section-title">
+        <span>CM MATERIALS</span>
+        CM素材をお選びください
+      </h2>
+
+      <!-- 背景画像 -->
+      <div class="field">
+        <label>背景画像<span class="optional">（1つ選んでください）</span></label>
+        <div class="image-select-grid">
+          <div class="image-select-item">
+            <input type="radio" name="背景画像" id="bg1" value="パターン1：ビジネス">
+            <label for="bg1">
+              <img src="images/bg-1.jpg" alt="背景パターン1">
+              <div class="image-label">パターン1</div>
+            </label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像" id="bg2" value="パターン2：長崎夜景">
+            <label for="bg2">
+              <img src="images/bg-2.jpg" alt="背景パターン2">
+              <div class="image-label">パターン2</div>
+            </label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像" id="bg3" value="パターン3：長崎昼景">
+            <label for="bg3">
+              <img src="images/bg-3.jpg" alt="背景パターン3">
+              <div class="image-label">パターン3</div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- BGM -->
+      <div class="field">
+        <label>BGM<span class="optional">（1つ選んでください）</span></label>
+        <div class="audio-select-list">
+          <div class="audio-select-item" id="bgm-item-1">
+            <div class="audio-item-label">
+              <input type="radio" name="BGM" value="BGMパターン1" id="bgm1">
+              <label for="bgm1">BGM パターン1</label>
+            </div>
+            <audio controls preload="none">
+              <source src="audio/bgm-1.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="audio-select-item" id="bgm-item-2">
+            <div class="audio-item-label">
+              <input type="radio" name="BGM" value="BGMパターン2" id="bgm2">
+              <label for="bgm2">BGM パターン2</label>
+            </div>
+            <audio controls preload="none">
+              <source src="audio/bgm-2.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="audio-select-item" id="bgm-item-3">
+            <div class="audio-item-label">
+              <input type="radio" name="BGM" value="BGMパターン3" id="bgm3">
+              <label for="bgm3">BGM パターン3</label>
+            </div>
+            <audio controls preload="none">
+              <source src="audio/bgm-3.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+
+      <!-- ナレーション -->
+      <div class="field">
+        <label>ナレーション<span class="optional">（1つ選んでください）</span></label>
+        <div class="audio-select-list">
+          <div class="audio-select-item" id="nar-item-1">
+            <div class="audio-item-label">
+              <input type="radio" name="ナレーション" value="ナレーションパターン1" id="nar1">
+              <label for="nar1">ナレーション パターン1</label>
+            </div>
+            <audio controls preload="none">
+              <source src="audio/narration-1.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="audio-select-item" id="nar-item-2">
+            <div class="audio-item-label">
+              <input type="radio" name="ナレーション" value="ナレーションパターン2" id="nar2">
+              <label for="nar2">ナレーション パターン2</label>
+            </div>
+            <audio controls preload="none">
+              <source src="audio/narration-2.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="audio-select-item" id="nar-item-3">
+            <div class="audio-item-label">
+              <input type="radio" name="ナレーション" value="ナレーションパターン3" id="nar3">
+              <label for="nar3">ナレーション パターン3</label>
+            </div>
+            <audio controls preload="none">
+              <source src="audio/narration-3.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
 
       <div class="submit-row">
         <button type="submit" class="btn btn-primary" id="submitBtn">送信する</button>
@@ -321,6 +305,7 @@
 </footer>
 
 <script>
+  // 文字数カウント
   const commentField = document.getElementById('comment');
   const charCount = document.getElementById('charCount');
   commentField.addEventListener('input', () => {
@@ -329,6 +314,21 @@
     charCount.classList.toggle('over', len >= 50);
   });
 
+  // 音声選択時にハイライト
+  document.querySelectorAll('input[name="BGM"]').forEach((radio, i) => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('[id^="bgm-item-"]').forEach(el => el.classList.remove('selected'));
+      document.getElementById('bgm-item-' + (i + 1)).classList.add('selected');
+    });
+  });
+  document.querySelectorAll('input[name="ナレーション"]').forEach((radio, i) => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('[id^="nar-item-"]').forEach(el => el.classList.remove('selected'));
+      document.getElementById('nar-item-' + (i + 1)).classList.add('selected');
+    });
+  });
+
+  // フォーム送信
   const form = document.getElementById('applyForm');
   const submitBtn = document.getElementById('submitBtn');
   const successBox = document.getElementById('successBox');
@@ -337,14 +337,12 @@
     e.preventDefault();
     submitBtn.disabled = true;
     submitBtn.textContent = '送信中...';
-
     try {
       const response = await fetch(form.action, {
         method: 'POST',
         body: new FormData(form),
         headers: { 'Accept': 'application/json' }
       });
-
       if (response.ok) {
         form.style.display = 'none';
         successBox.classList.add('show');
