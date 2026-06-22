@@ -163,6 +163,15 @@
         <input type="text" id="ceo" name="代表者名">
       </div>
       <div class="field">
+  <label for="plan">ご希望のプラン</label>
+  <select id="plan" name="ご希望のプラン" style="width:100%; border:1px solid var(--gray-border); border-radius:4px; padding:12px 14px; font-size:14.5px; font-family:inherit; color:var(--black); background:var(--white); appearance:auto;">
+    <option value="">-- 選択してください --</option>
+    <option value="PLAN A：協賛プラン（¥10,000）">PLAN A：協賛プラン（¥10,000）</option>
+    <option value="PLAN B：CM放送プラン（¥48,000）">PLAN B：CM放送プラン（¥48,000）</option>
+    <option value="PLAN C：番組固定プラン（¥98,000）">PLAN C：番組固定プラン（¥98,000）</option>
+  </select>
+</div>
+      <div class="field">
         <label for="comment">15秒コメント<span class="optional">（50文字まで）</span></label>
         <textarea id="comment" name="15秒コメント" rows="3" maxlength="50"></textarea>
         <div class="char-count" id="charCount">0 / 50</div>
