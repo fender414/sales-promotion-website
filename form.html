@@ -69,11 +69,20 @@
   .audio-item-label input[type="radio"] { width: 16px; height: 16px; accent-color: var(--blue); flex-shrink: 0; }
   .audio-select-item audio { width: 100%; height: 36px; }
 
+  .preview-overlay { display: none; position: fixed; inset: 0; z-index: 999; background: #000; }
+  .preview-overlay.show { display: block; }
+  .preview-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.85; }
+  .preview-close { position: absolute; top: 20px; right: 24px; background: rgba(255,255,255,0.15); border: none; color: #fff; font-size: 28px; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+  .preview-close:hover { background: rgba(255,255,255,0.3); }
+  .preview-label { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.6); font-size: 13px; letter-spacing: 1px; white-space: nowrap; }
+
   .submit-row { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--gray-border); }
   .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 16px 28px; font-size: 15px; font-weight: 700; border-radius: 4px; border: none; cursor: pointer; transition: all 0.15s ease; font-family: inherit; }
   .btn-primary { background: var(--black); color: var(--white); }
   .btn-primary:hover { background: var(--blue); }
   .btn-primary:disabled { background: var(--gray-text); cursor: not-allowed; }
+  .btn-preview { background: var(--blue); color: var(--white); margin-bottom: 12px; }
+  .btn-preview:hover { background: #1a4fd6; }
   .form-note { font-size: 12.5px; color: var(--gray-text); margin-top: 16px; text-align: center; }
 
   .success-box { display: none; text-align: center; padding: 80px 24px; }
@@ -87,53 +96,8 @@
 
   @media (max-width: 600px) {
     .form-hero h1 { font-size: 24px; }
-    .image-select-grid { grid-template-columns: 1fr; }
+    .image-select-grid { grid-template-columns: repeat(2, 1fr); }
   }
-  /* プレビューモーダル */
-.preview-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  background: #000;
-}
-.preview-overlay.show { display: block; }
-.preview-bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0.85;
-}
-.preview-close {
-  position: absolute;
-  top: 20px;
-  right: 24px;
-  background: rgba(255,255,255,0.15);
-  border: none;
-  color: #fff;
-  font-size: 28px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(4px);
-}
-.preview-close:hover { background: rgba(255,255,255,0.3); }
-.preview-label {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(255,255,255,0.6);
-  font-size: 13px;
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
 </style>
 </head>
 <body>
@@ -167,11 +131,52 @@
 
 <section class="form-section">
   <div class="wrap">
-
     <form id="applyForm" action="https://formspree.io/f/xrewzerd" method="POST">
 
-    
-</div>
+      <!-- 基本情報 -->
+      <div class="field">
+        <label for="company">会社名</label>
+        <input type="text" id="company" name="会社名">
+      </div>
+      <div class="field">
+        <label for="address">住所</label>
+        <input type="text" id="address" name="住所">
+      </div>
+      <div class="field">
+        <label for="tel">電話番号</label>
+        <input type="tel" id="tel" name="電話番号">
+      </div>
+      <div class="field">
+        <label for="overview">会社概要</label>
+        <textarea id="overview" name="会社概要" rows="4"></textarea>
+      </div>
+      <div class="field">
+        <label for="founded">設立日</label>
+        <input type="text" id="founded" name="設立日" placeholder="例：2010年4月">
+      </div>
+      <div class="field">
+        <label for="revenue">年間売上</label>
+        <input type="text" id="revenue" name="年間売上" placeholder="例：5,000万円">
+      </div>
+      <div class="field">
+        <label for="ceo">代表者名</label>
+        <input type="text" id="ceo" name="代表者名">
+      </div>
+      <div class="field">
+        <label for="comment">15秒コメント<span class="optional">（50文字まで）</span></label>
+        <textarea id="comment" name="15秒コメント" rows="3" maxlength="50"></textarea>
+        <div class="char-count" id="charCount">0 / 50</div>
+      </div>
+      <div class="field">
+        <label>ご希望曜日<span class="optional">（1応募につき1つまで）</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="月曜"> 月曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="火曜"> 火曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="水曜"> 水曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="木曜"> 木曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="金曜"> 金曜</label>
+        </div>
+      </div>
       <div class="field">
         <label>ご希望の時間帯<span class="optional">（1応募につき1つまで）</span></label>
         <div class="radio-group">
@@ -189,80 +194,69 @@
         <span>CM MATERIALS</span>
         CM素材をお選びください
       </h2>
- <div class="field">
-  <label>背景画像 1枚目<span class="optional">（1つ選んでください）</span></label>
-  <div class="image-select-grid">
-    <div class="image-select-item">
-      <input type="radio" name="背景画像1枚目" id="bg1a" value="images/bg-1.jpg">
-      <label for="bg1a">
-        <img src="images/bg-1.jpg" alt="パターン1">
-        <div class="image-label">パターン1</div>
-      </label>
-    </div>
-    <div class="image-select-item">
-      <input type="radio" name="背景画像1枚目" id="bg2a" value="images/bg-2.jpg">
-      <label for="bg2a">
-        <img src="images/bg-2.jpg" alt="パターン2">
-        <div class="image-label">パターン2</div>
-      </label>
-    </div>
-    <div class="image-select-item">
-      <input type="radio" name="背景画像1枚目" id="bg3a" value="images/bg-3.jpg">
-      <label for="bg3a">
-        <img src="images/bg-3.jpg" alt="パターン3">
-        <div class="image-label">パターン3</div>
-      </label>
-    </div>
-    <div class="image-select-item">
-      <input type="radio" name="背景画像1枚目" id="bg4a" value="画像/bg-1b.jpg">
-      <label for="bg4a">
-        <img src="画像/bg-1b.jpg" alt="パターン4">
-        <div class="image-label">パターン4</div>
-      </label>
-    </div>
-    <div class="image-select-item">
-      <input type="radio" name="背景画像1枚目" id="bg5a" value="画像/bg-2b.jpg">
-      <label for="bg5a">
-        <img src="画像/bg-2b.jpg" alt="パターン5">
-        <div class="image-label">パターン5</div>
-      </label>
-    </div>
-    <div class="image-select-item">
-      <input type="radio" name="背景画像1枚目" id="bg6a" value="画像/bg-3b.jpg">
-      <label for="bg6a">
-        <img src="画像/bg-3b.jpg" alt="パターン6">
-        <div class="image-label">パターン6</div>
-      </label>
-    </div>
-  </div>
-</div>
 
-<div class="field">
-  <label>背景画像 2枚目<span class="optional">（1つ選んでください）</span></label>
-  <div class="image-select-grid">
-    <div class="image-select-item">
-      <input type="radio" name="背景画像2枚目" id="bg1b" value="images/bg-1.jpg">
-      <label for="bg1b">
-        <img src="images/bg-1.jpg" alt="パターン1">
-        <div class="image-label">パターン1</div>
-      </label>
-    </div>
-    <div class="image-select-item">
-      <input type="radio" name="背景画像2枚目" id="bg2b" value="images/bg-2.jpg">
-      <label for="bg2b">
-        <img src="images/bg-2.jpg" alt="パターン2">
-        <div class="image-label">パターン2</div>
-      </label>
-    </div>
-    <div class="image-select-item">
-      <input type="radio" name="背景画像2枚目" id="bg3b" value="images/bg-3.jpg">
-      <label for="bg3b">
-        <img src="images/bg-3.jpg" alt="パターン3">
-        <div class="image-label">パターン3</div>
-      </label>
-    </div>
-      <!-- 背景画像 -->
-      
+      <!-- 背景画像1枚目 -->
+      <div class="field">
+        <label>背景画像 1枚目<span class="optional">（1つ選んでください）</span></label>
+        <div class="image-select-grid">
+          <div class="image-select-item">
+            <input type="radio" name="背景画像1枚目" id="bg1a" value="images/bg-1.jpg">
+            <label for="bg1a"><img src="images/bg-1.jpg" alt="パターン1"><div class="image-label">パターン1</div></label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像1枚目" id="bg2a" value="images/bg-2.jpg">
+            <label for="bg2a"><img src="images/bg-2.jpg" alt="パターン2"><div class="image-label">パターン2</div></label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像1枚目" id="bg3a" value="images/bg-3.jpg">
+            <label for="bg3a"><img src="images/bg-3.jpg" alt="パターン3"><div class="image-label">パターン3</div></label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像1枚目" id="bg4a" value="bg4">
+            <label for="bg4a"><img src="画像/bg-1b.jpg" alt="パターン4"><div class="image-label">パターン4</div></label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像1枚目" id="bg5a" value="bg5">
+            <label for="bg5a"><img src="画像/bg-2b.jpg" alt="パターン5"><div class="image-label">パターン5</div></label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像1枚目" id="bg6a" value="bg6">
+            <label for="bg6a"><img src="画像/bg-3b.jpg" alt="パターン6"><div class="image-label">パターン6</div></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 背景画像2枚目 -->
+      <div class="field">
+        <label>背景画像 2枚目<span class="optional">（1つ選んでください）</span></label>
+        <div class="image-select-grid">
+          <div class="image-select-item">
+            <input type="radio" name="背景画像2枚目" id="bg1b" value="images/bg-1.jpg">
+            <label for="bg1b"><img src="images/bg-1.jpg" alt="パターン1"><div class="image-label">パターン1</div></label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像2枚目" id="bg2b" value="images/bg-2.jpg">
+            <label for="bg2b"><img src="images/bg-2.jpg" alt="パターン2"><div class="image-label">パターン2</div></label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像2枚目" id="bg3b" value="images/bg-3.jpg">
+            <label for="bg3b"><img src="images/bg-3.jpg" alt="パターン3"><div class="image-label">パターン3</div></label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像2枚目" id="bg4b" value="bg4">
+            <label for="bg4b"><img src="画像/bg-1b.jpg" alt="パターン4"><div class="image-label">パターン4</div></label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像2枚目" id="bg5b" value="bg5">
+            <label for="bg5b"><img src="画像/bg-2b.jpg" alt="パターン5"><div class="image-label">パターン5</div></label>
+          </div>
+          <div class="image-select-item">
+            <input type="radio" name="背景画像2枚目" id="bg6b" value="bg6">
+            <label for="bg6b"><img src="画像/bg-3b.jpg" alt="パターン6"><div class="image-label">パターン6</div></label>
+          </div>
+        </div>
+      </div>
+
       <!-- BGM -->
       <div class="field">
         <label>BGM<span class="optional">（1つ選んでください）</span></label>
@@ -272,27 +266,21 @@
               <input type="radio" name="BGM" value="BGMパターン1" id="bgm1">
               <label for="bgm1">BGM パターン1</label>
             </div>
-            <audio controls preload="none">
-              <source src="audio/bgm-1.mp3" type="audio/mpeg">
-            </audio>
+            <audio controls preload="none"><source src="audio/bgm-1.mp3" type="audio/mpeg"></audio>
           </div>
           <div class="audio-select-item" id="bgm-item-2">
             <div class="audio-item-label">
               <input type="radio" name="BGM" value="BGMパターン2" id="bgm2">
               <label for="bgm2">BGM パターン2</label>
             </div>
-            <audio controls preload="none">
-              <source src="audio/bgm-2.mp3" type="audio/mpeg">
-            </audio>
+            <audio controls preload="none"><source src="audio/bgm-2.mp3" type="audio/mpeg"></audio>
           </div>
           <div class="audio-select-item" id="bgm-item-3">
             <div class="audio-item-label">
               <input type="radio" name="BGM" value="BGMパターン3" id="bgm3">
               <label for="bgm3">BGM パターン3</label>
             </div>
-            <audio controls preload="none">
-              <source src="audio/bgm-3.mp3" type="audio/mpeg">
-            </audio>
+            <audio controls preload="none"><source src="audio/bgm-3.mp3" type="audio/mpeg"></audio>
           </div>
         </div>
       </div>
@@ -306,54 +294,45 @@
               <input type="radio" name="ナレーション" value="ナレーションパターン1" id="nar1">
               <label for="nar1">ナレーション パターン1</label>
             </div>
-            <audio controls preload="none">
-              <source src="audio/narration-1.mp3" type="audio/mpeg">
-            </audio>
+            <audio controls preload="none"><source src="audio/narration-1.mp3" type="audio/mpeg"></audio>
           </div>
           <div class="audio-select-item" id="nar-item-2">
             <div class="audio-item-label">
               <input type="radio" name="ナレーション" value="ナレーションパターン2" id="nar2">
               <label for="nar2">ナレーション パターン2</label>
             </div>
-            <audio controls preload="none">
-              <source src="audio/narration-2.mp3" type="audio/mpeg">
-            </audio>
+            <audio controls preload="none"><source src="audio/narration-2.mp3" type="audio/mpeg"></audio>
           </div>
           <div class="audio-select-item" id="nar-item-3">
             <div class="audio-item-label">
               <input type="radio" name="ナレーション" value="ナレーションパターン3" id="nar3">
               <label for="nar3">ナレーション パターン3</label>
             </div>
-            <audio controls preload="none">
-              <source src="audio/narration-3.mp3" type="audio/mpeg">
-            </audio>
+            <audio controls preload="none"><source src="audio/narration-3.mp3" type="audio/mpeg"></audio>
           </div>
         </div>
       </div>
-<div style="margin-top:32px;">
-  <button type="button" class="btn" id="previewBtn" style="background:var(--blue); color:var(--white); margin-bottom:12px;">
-    イメージをプレビューする
-  </button>
-</div>
+
       <div class="submit-row">
+        <button type="button" class="btn btn-preview" id="previewBtn">イメージをプレビューする</button>
         <button type="submit" class="btn btn-primary" id="submitBtn">送信する</button>
         <p class="form-note">送信内容は tomonaga@ncctv.co.jp 宛に送信されます。</p>
       </div>
 
     </form>
+
     <!-- プレビューオーバーレイ -->
-<div class="preview-overlay" id="previewOverlay">
-  <div class="preview-bg" id="previewBg"></div>
-  <button class="preview-close" id="previewClose">×</button>
-  <div class="preview-label" id="previewLabel"></div>
-</div>
+    <div class="preview-overlay" id="previewOverlay">
+      <div class="preview-bg" id="previewBg"></div>
+      <button class="preview-close" id="previewClose">×</button>
+      <div class="preview-label" id="previewLabel"></div>
+    </div>
 
     <div class="success-box" id="successBox">
       <h2>送信が完了しました</h2>
       <p>お申し込みありがとうございました。内容を確認の上、担当者よりご連絡いたします。</p>
       <a href="index.html" class="btn btn-primary" style="display:inline-flex;width:auto;padding:14px 28px;">トップページへ戻る</a>
     </div>
-
   </div>
 </section>
 
@@ -373,7 +352,7 @@
     charCount.classList.toggle('over', len >= 50);
   });
 
-  // 音声選択時にハイライト
+  // 音声選択ハイライト
   document.querySelectorAll('input[name="BGM"]').forEach((radio, i) => {
     radio.addEventListener('change', () => {
       document.querySelectorAll('[id^="bgm-item-"]').forEach(el => el.classList.remove('selected'));
@@ -385,6 +364,93 @@
       document.querySelectorAll('[id^="nar-item-"]').forEach(el => el.classList.remove('selected'));
       document.getElementById('nar-item-' + (i + 1)).classList.add('selected');
     });
+  });
+
+  // 画像パスマップ
+  const imgSrcMap = {
+    'images/bg-1.jpg': 'images/bg-1.jpg',
+    'images/bg-2.jpg': 'images/bg-2.jpg',
+    'images/bg-3.jpg': 'images/bg-3.jpg',
+    'bg4': encodeURI('画像/bg-1b.jpg'),
+    'bg5': encodeURI('画像/bg-2b.jpg'),
+    'bg6': encodeURI('画像/bg-3b.jpg'),
+  };
+
+  // プレビュー
+  const previewBtn = document.getElementById('previewBtn');
+  const previewOverlay = document.getElementById('previewOverlay');
+  const previewBg = document.getElementById('previewBg');
+  const previewClose = document.getElementById('previewClose');
+  const previewLabel = document.getElementById('previewLabel');
+  let previewBgmAudio = null;
+  let previewNarAudio = null;
+
+  previewBtn.addEventListener('click', () => {
+    const bg1Val = document.querySelector('input[name="背景画像1枚目"]:checked')?.value;
+    const bg2Val = document.querySelector('input[name="背景画像2枚目"]:checked')?.value;
+    const bgmVal = document.querySelector('input[name="BGM"]:checked')?.value;
+    const narVal = document.querySelector('input[name="ナレーション"]:checked')?.value;
+
+    if (!bg1Val && !bgmVal && !narVal) {
+      alert('背景画像・BGM・ナレーションのいずれかを選んでからプレビューしてください。');
+      return;
+    }
+
+    // 1枚目をセット
+    if (bg1Val) {
+      previewBg.style.transition = 'none';
+      previewBg.style.backgroundImage = 'url(' + imgSrcMap[bg1Val] + ')';
+      previewBg.style.opacity = '0.85';
+    }
+
+    // BGM再生
+    const bgmSrcMap = {
+      'BGMパターン1': 'audio/bgm-1.mp3',
+      'BGMパターン2': 'audio/bgm-2.mp3',
+      'BGMパターン3': 'audio/bgm-3.mp3',
+    };
+    if (bgmVal && bgmSrcMap[bgmVal]) {
+      previewBgmAudio = new Audio(bgmSrcMap[bgmVal]);
+      previewBgmAudio.volume = 0.4;
+      previewBgmAudio.loop = true;
+      previewBgmAudio.play();
+    }
+
+    // ナレーション再生 → 7.5秒後に2枚目へフェード
+    const narSrcMap = {
+      'ナレーションパターン1': 'audio/narration-1.mp3',
+      'ナレーションパターン2': 'audio/narration-2.mp3',
+      'ナレーションパターン3': 'audio/narration-3.mp3',
+    };
+    if (narVal && narSrcMap[narVal]) {
+      previewNarAudio = new Audio(narSrcMap[narVal]);
+      previewNarAudio.volume = 1.0;
+      previewNarAudio.play();
+
+      // 7.5秒後に2枚目へフェード
+      setTimeout(() => {
+        if (bg2Val && imgSrcMap[bg2Val]) {
+          previewBg.style.transition = 'opacity 1.5s ease';
+          previewBg.style.opacity = '0';
+          setTimeout(() => {
+            previewBg.style.backgroundImage = 'url(' + imgSrcMap[bg2Val] + ')';
+            previewBg.style.transition = 'opacity 1.5s ease';
+            previewBg.style.opacity = '0.85';
+          }, 1500);
+        }
+      }, 7500);
+    }
+
+    // ラベル表示
+    previewLabel.textContent = [bg1Val ? 'BG1' : '', bg2Val ? 'BG2' : '', bgmVal, narVal].filter(Boolean).join(' / ');
+    previewOverlay.classList.add('show');
+  });
+
+  // 閉じる
+  previewClose.addEventListener('click', () => {
+    previewOverlay.classList.remove('show');
+    if (previewBgmAudio) { previewBgmAudio.pause(); previewBgmAudio = null; }
+    if (previewNarAudio) { previewNarAudio.pause(); previewNarAudio = null; }
   });
 
   // フォーム送信
@@ -414,95 +480,6 @@
       submitBtn.disabled = false;
       submitBtn.textContent = '送信する';
     }
-  });
-
-  // 背景画像のパスマップ（A:1枚目、B:2枚目）
-  const bgMap = {
-    'パターン1：ビジネス': ['images/bg-1.jpg', encodeURI('画像/bg-1b.jpg')],
-    'パターン2：長崎夜景': ['images/bg-2.jpg', encodeURI('画像/bg-2b.jpg')],
-    'パターン3：長崎昼景': ['images/bg-3.jpg', encodeURI('画像/bg-3b.jpg')],
-  };
-
-  const previewBtn = document.getElementById('previewBtn');
-  const previewOverlay = document.getElementById('previewOverlay');
-  const previewBg = document.getElementById('previewBg');
-  const previewClose = document.getElementById('previewClose');
-  const previewLabel = document.getElementById('previewLabel');
-
-  let previewBgmAudio = null;
-  let previewNarAudio = null;
-
-  previewBtn.addEventListener('click', () => {
-    const bg1Val = document.querySelector('input[name="背景画像1枚目"]:checked')?.value;
-const bg2Val = document.querySelector('input[name="背景画像2枚目"]:checked')?.value;
-const bgmVal = document.querySelector('input[name="BGM"]:checked')?.value;
-const narVal = document.querySelector('input[name="ナレーション"]:checked')?.value;
-
-if (!bg1Val && !bgmVal && !narVal) {
-  alert('背景画像・BGM・ナレーションのいずれかを選んでからプレビューしてください。');
-  return;
-}
-
-// 1枚目の背景画像をセット
-if (bg1Val) {
-  previewBg.style.backgroundImage = 'url(' + encodeURI(bg1Val) + ')';
-  previewBg.style.opacity = '0.85';
-  previewBg.style.transition = 'none';
-}
-
-    // BGM再生
-    const bgmSrcMap = {
-      'BGMパターン1': 'audio/bgm-1.mp3',
-      'BGMパターン2': 'audio/bgm-2.mp3',
-      'BGMパターン3': 'audio/bgm-3.mp3',
-    };
-    if (bgmVal && bgmSrcMap[bgmVal]) {
-      previewBgmAudio = new Audio(bgmSrcMap[bgmVal]);
-      previewBgmAudio.volume = 0.4;
-      previewBgmAudio.loop = true;
-      previewBgmAudio.play();
-    }
-
-    // ナレーション再生 → 終了時に2枚目へフェード
-    const narSrcMap = {
-      'ナレーションパターン1': 'audio/narration-1.mp3',
-      'ナレーションパターン2': 'audio/narration-2.mp3',
-      'ナレーションパターン3': 'audio/narration-3.mp3',
-    };
-    if (narVal && narSrcMap[narVal]) {
-      previewNarAudio = new Audio(narSrcMap[narVal]);
-      previewNarAudio.volume = 1.0;
-      previewNarAudio.play();
-
-      // ナレーション終了後に2枚目へフェード
-      if (bgVal && bgMap[bgVal]) {
-        const [imgA, imgB] = bgMap[bgVal];
-       previewNarAudio.addEventListener('ended', () => {
-  if (bg2Val) {
-    previewBg.style.transition = 'opacity 1.5s ease';
-    previewBg.style.opacity = '0';
-    setTimeout(() => {
-      previewBg.style.backgroundImage = 'url(' + encodeURI(bg2Val) + ')';
-      previewBg.style.transition = 'opacity 1.5s ease';
-      previewBg.style.opacity = '0.85';
-    }, 1500);
-  }
-}, { once: true });
-      }
-    }
-
-    // ラベル表示
-    const labels = [bgVal, bgmVal, narVal].filter(Boolean).join(' / ');
-    previewLabel.textContent = labels;
-
-    previewOverlay.classList.add('show');
-  });
-
-  // 閉じる
-  previewClose.addEventListener('click', () => {
-    previewOverlay.classList.remove('show');
-    if (previewBgmAudio) { previewBgmAudio.pause(); previewBgmAudio = null; }
-    if (previewNarAudio) { previewNarAudio.pause(); previewNarAudio = null; }
   });
 </script>
 
