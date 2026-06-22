@@ -412,7 +412,13 @@
     if (bgmVal && bgmSrcMap[bgmVal]) {
       previewBgmAudio = new Audio(bgmSrcMap[bgmVal]);
       previewBgmAudio.volume = 0.4;
-      previewBgmAudio.loop = true;
+      previewBgmAudio.loop = false;
+setTimeout(() => {
+  if (previewBgmAudio) {
+    previewBgmAudio.pause();
+    previewBgmAudio = null;
+  }
+}, 17000);
       previewBgmAudio.play();
     }
 
