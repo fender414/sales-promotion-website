@@ -430,11 +430,11 @@
       // 7.5秒後に2枚目へフェード
       setTimeout(() => {
         if (bg2Val && imgSrcMap[bg2Val]) {
-          previewBg.style.transition = 'opacity 1.5s ease';
+          previewBg.style.transition = 'opacity 0.5s ease';
           previewBg.style.opacity = '0';
           setTimeout(() => {
             previewBg.style.backgroundImage = 'url(' + imgSrcMap[bg2Val] + ')';
-            previewBg.style.transition = 'opacity 1.5s ease';
+            previewBg.style.transition = 'opacity 0.5s ease';
             previewBg.style.opacity = '0.85';
           }, 1500);
         }
