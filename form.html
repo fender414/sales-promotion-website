@@ -414,9 +414,9 @@
   });
   // 背景画像のパスマップ
 const bgMap = {
-  'パターン1：ビジネス': 'images/bg-1.jpg',
-  'パターン2：長崎夜景': 'images/bg-2.jpg',
-  'パターン3：長崎昼景': 'images/bg-3.jpg',
+  'パターン1：ビジネス': ['images/bg-1.jpg', 'images/bg-1b.jpg'],
+  'パターン2：長崎夜景': ['images/bg-2.jpg', 'images/bg-2b.jpg'],
+  'パターン3：長崎昼景': ['images/bg-3.jpg', 'images/bg-3b.jpg'],
 };
 
 const previewBtn = document.getElementById('previewBtn');
@@ -440,12 +440,26 @@ previewBtn.addEventListener('click', () => {
   }
 
   // 背景画像をセット
-  if (bgVal && bgMap[bgVal]) {
-    previewBg.style.backgroundImage = 'url(' + bgMap[bgVal] + ')';
-  } else {
-    previewBg.style.backgroundImage = 'none';
-    previewBg.style.background = '#1a1a2e';
+if (bgVal && bgMap[bgVal]) {
+  const [imgA, imgB] = bgMap[bgVal];
+  previewBg.style.backgroundImage = 'url(' + imgA + ')';
+  previewBg.style.opacity = '0.85';
+
+  if (previewNarAudio) {
+    previewNarAudio.addEventListener('ended', () => {
+      previewBg.style.transition = 'opacity 1.5s ease';
+      previewBg.style.opacity = '0';
+      setTimeout(() => {
+        previewBg.style.backgroundImage = 'url(' + imgB + ')';
+        previewBg.style.transition = 'opacity 1.5s ease';
+        previewBg.style.opacity = '0.85';
+      }, 1500);
+    }, { once: true });
   }
+} else {
+  previewBg.style.backgroundImage = 'none';
+  previewBg.style.background = '#1a1a2e';
+}
 
   // BGM再生
   const bgmSrcMap = {
