@@ -32,4 +32,444 @@
   .header-contact a:hover { color: var(--blue); }
 
   .form-hero { padding: 64px 0 40px; border-bottom: 1px solid var(--gray-border); }
-  .form-eyebrow { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 3px; color:
+  .form-eyebrow { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 3px; color: var(--blue); margin-bottom: 14px; display: block; }
+  .form-hero h1 { font-size: 30px; font-weight: 700; margin-bottom: 16px; }
+  .form-hero p { font-size: 14.5px; color: var(--gray-text); }
+
+  .form-section { padding: 48px 0 96px; }
+  .field { margin-bottom: 28px; }
+  .field > label { display: block; font-size: 13.5px; font-weight: 700; margin-bottom: 8px; color: var(--black); }
+  .field .optional { font-weight: 500; color: var(--gray-text); font-size: 12px; margin-left: 6px; }
+  .field input, .field textarea { width: 100%; border: 1px solid var(--gray-border); border-radius: 4px; padding: 12px 14px; font-size: 14.5px; font-family: inherit; color: var(--black); background: var(--white); transition: border-color 0.15s ease; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--blue); }
+  .field textarea { resize: vertical; min-height: 100px; }
+  .char-count { font-size: 12px; color: var(--gray-text); margin-top: 6px; text-align: right; }
+  .char-count.over { color: #d92d20; }
+
+  .radio-group { display: flex; flex-direction: column; gap: 10px; }
+  .radio-option { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; cursor: pointer; }
+  .radio-option input[type="radio"] { width: 16px; height: 16px; accent-color: var(--blue); cursor: pointer; }
+
+  .form-section-title { font-size: 16px; font-weight: 700; color: var(--black); margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid var(--blue); margin-top: 48px; }
+  .form-section-title span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: var(--blue); letter-spacing: 2px; display: block; margin-bottom: 4px; }
+
+  .video-select-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .video-select-item { position: relative; cursor: pointer; }
+  .video-select-item input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .video-select-item label { display: block; cursor: pointer; }
+  .video-select-item video { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 4px; border: 3px solid transparent; transition: border-color 0.15s ease; display: block; }
+  .video-select-item input[type="radio"]:checked + label video { border-color: var(--blue); }
+  .video-select-item input[type="radio"]:checked + label .image-label { color: var(--blue); }
+  .image-label { font-size: 12px; font-weight: 600; color: var(--gray-text); text-align: center; margin-top: 6px; }
+
+  .audio-select-list { display: flex; flex-direction: column; gap: 12px; }
+  .audio-select-item { border: 1px solid var(--gray-border); border-radius: 4px; padding: 14px 16px; transition: border-color 0.15s ease; }
+  .audio-select-item.selected { border-color: var(--blue); background: #f0f4ff; }
+  .audio-item-label { display: flex; align-items: center; gap: 12px; cursor: pointer; font-size: 13.5px; font-weight: 700; margin-bottom: 10px; }
+  .audio-item-label input[type="radio"] { width: 16px; height: 16px; accent-color: var(--blue); flex-shrink: 0; }
+  .audio-select-item audio { width: 100%; height: 36px; }
+
+  .preview-overlay { display: none; position: fixed; inset: 0; z-index: 999; background: #000; }
+  .preview-overlay.show { display: block; }
+  .preview-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+  .preview-close { position: absolute; top: 20px; right: 24px; background: rgba(255,255,255,0.15); border: none; color: #fff; font-size: 28px; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+  .preview-close:hover { background: rgba(255,255,255,0.3); }
+  .preview-label { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.6); font-size: 13px; letter-spacing: 1px; white-space: nowrap; }
+
+  .submit-row { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--gray-border); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 16px 28px; font-size: 15px; font-weight: 700; border-radius: 4px; border: none; cursor: pointer; transition: all 0.15s ease; font-family: inherit; }
+  .btn-primary { background: var(--black); color: var(--white); }
+  .btn-primary:hover { background: var(--blue); }
+  .btn-primary:disabled { background: var(--gray-text); cursor: not-allowed; }
+  .btn-preview { background: var(--blue); color: var(--white); margin-bottom: 12px; }
+  .btn-preview:hover { background: #1a4fd6; }
+  .form-note { font-size: 12.5px; color: var(--gray-text); margin-top: 16px; text-align: center; }
+
+  .success-box { display: none; text-align: center; padding: 80px 24px; }
+  .success-box.show { display: block; }
+  .success-box h2 { font-size: 22px; margin-bottom: 14px; }
+  .success-box p { color: var(--gray-text); font-size: 14px; margin-bottom: 28px; }
+
+  footer { padding: 32px 0; border-top: 1px solid var(--gray-border); }
+  .footer-bottom { display: flex; justify-content: center; }
+  .footer-bottom p { font-size: 12px; color: var(--gray-text); }
+
+  @media (max-width: 600px) {
+    .form-hero h1 { font-size: 24px; }
+    .video-select-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-mark">
+      <svg width="56" height="44" viewBox="0 0 80 60">
+        <text x="4" y="52" font-family="'Inter','Helvetica Neue',sans-serif" font-size="56" font-weight="700" fill="#c8cdd4">S</text>
+        <text x="24" y="52" font-family="'Inter','Helvetica Neue',sans-serif" font-size="56" font-weight="700" fill="#2461ec">S</text>
+      </svg>
+      <div class="logo-text">
+        <span class="logo-en">SALES SOKUSHIN</span>
+        <span class="logo-jp">株式会社セールス促進会議</span>
+      </div>
+    </a>
+    <div class="header-contact">
+      <span>お電話でのお問い合わせ</span>
+      <a href="tel:0958431234">095-843-1234</a>
+    </div>
+  </div>
+</header>
+
+<section class="form-hero">
+  <div class="wrap">
+    <span class="form-eyebrow">APPLICATION</span>
+    <h1>お申し込みフォーム</h1>
+    <p>必要事項をご入力の上、送信ボタンを押してください。<br>※印のない項目は任意でご記入いただけます。</p>
+  </div>
+</section>
+
+<section class="form-section">
+  <div class="wrap">
+    <form id="applyForm" action="https://formspree.io/f/xrewzerd" method="POST">
+
+      <div class="field">
+        <label for="company">会社名</label>
+        <input type="text" id="company" name="会社名">
+      </div>
+      <div class="field">
+        <label for="address">住所</label>
+        <input type="text" id="address" name="住所">
+      </div>
+      <div class="field">
+        <label for="tel">電話番号</label>
+        <input type="tel" id="tel" name="電話番号">
+      </div>
+      <div class="field">
+        <label for="overview">会社概要</label>
+        <textarea id="overview" name="会社概要" rows="4"></textarea>
+      </div>
+      <div class="field">
+        <label for="founded">設立日</label>
+        <input type="text" id="founded" name="設立日" placeholder="例：2010年4月">
+      </div>
+      <div class="field">
+        <label for="revenue">年間売上</label>
+        <input type="text" id="revenue" name="年間売上" placeholder="例：5,000万円">
+      </div>
+      <div class="field">
+        <label for="ceo">代表者名</label>
+        <input type="text" id="ceo" name="代表者名">
+      </div>
+      <div class="field">
+        <label for="plan">ご希望のプラン</label>
+        <select id="plan" name="ご希望のプラン" style="width:100%; border:1px solid var(--gray-border); border-radius:4px; padding:12px 14px; font-size:14.5px; font-family:inherit; color:var(--black); background:var(--white); appearance:auto;">
+          <option value="">-- 選択してください --</option>
+          <option value="PLAN A：協賛プラン（¥10,000）">PLAN A：協賛プラン（¥10,000）</option>
+          <option value="PLAN B：CM放送プラン（¥48,000）">PLAN B：CM放送プラン（¥48,000）</option>
+          <option value="PLAN C：番組固定プラン（¥98,000）">PLAN C：番組固定プラン（¥98,000）</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="comment">15秒コメント※PLAN Aの方は不要<span class="optional">（50文字まで）</span></label>
+        <textarea id="comment" name="15秒コメント" rows="3" maxlength="50"></textarea>
+        <div class="char-count" id="charCount">0 / 50</div>
+      </div>
+      <div class="field">
+        <label>ご希望曜日※PLAN Aの方は不要<span class="optional">（1応募につき1つまで）</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="月曜"> 月曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="火曜"> 火曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="水曜"> 水曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="木曜"> 木曜</label>
+          <label class="radio-option"><input type="radio" name="ご希望曜日" value="金曜"> 金曜</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>ご希望の時間帯※PLAN Aの方は不要<span class="optional">（1応募につき1つまで）</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="6:00〜8:00"> 6:00〜8:00</label>
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="8:00〜10:00"> 8:00〜10:00</label>
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="12:00〜14:00"> 12:00〜14:00</label>
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="14:00〜16:00"> 14:00〜16:00</label>
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="16:00〜18:00"> 16:00〜18:00</label>
+          <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="24:00〜25:00"> 24:00〜25:00</label>
+        </div>
+      </div>
+
+      <h2 class="form-section-title">
+        <span>CM MATERIALS</span>
+        CM素材をお選びください
+      </h2>
+
+      <!-- 背景動画1枚目 -->
+      <div class="field">
+        <label>背景動画 1枚目<span class="optional">（A・Bどちらか選んでください）</span></label>
+        <div class="video-select-grid">
+          <div class="video-select-item">
+            <input type="radio" name="背景動画1枚目" id="vid1a" value="動画1枚目A">
+            <label for="vid1a">
+              <video src="videos/bg1-a.mp4" autoplay muted loop playsinline></video>
+              <div class="image-label">パターン A</div>
+            </label>
+          </div>
+          <div class="video-select-item">
+            <input type="radio" name="背景動画1枚目" id="vid1b" value="動画1枚目B">
+            <label for="vid1b">
+              <video src="videos/bg1-b.mp4" autoplay muted loop playsinline></video>
+              <div class="image-label">パターン B</div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 背景動画2枚目 -->
+      <div class="field">
+        <label>背景動画 2枚目<span class="optional">（A・Bどちらか選んでください）</span></label>
+        <div class="video-select-grid">
+          <div class="video-select-item">
+            <input type="radio" name="背景動画2枚目" id="vid2a" value="動画2枚目A">
+            <label for="vid2a">
+              <video src="videos/bg2-a.mp4" autoplay muted loop playsinline></video>
+              <div class="image-label">パターン A</div>
+            </label>
+          </div>
+          <div class="video-select-item">
+            <input type="radio" name="背景動画2枚目" id="vid2b" value="動画2枚目B">
+            <label for="vid2b">
+              <video src="videos/bg2-b.mp4" autoplay muted loop playsinline></video>
+              <div class="image-label">パターン B</div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- BGM -->
+      <div class="field">
+        <label>BGM<span class="optional">（1つ選んでください）</span></label>
+        <div class="audio-select-list">
+          <div class="audio-select-item" id="bgm-item-1">
+            <div class="audio-item-label">
+              <input type="radio" name="BGM" value="BGMパターン1" id="bgm1">
+              <label for="bgm1">BGM パターン1</label>
+            </div>
+            <audio controls preload="none"><source src="audio/bgm-1.mp3" type="audio/mpeg"></audio>
+          </div>
+          <div class="audio-select-item" id="bgm-item-2">
+            <div class="audio-item-label">
+              <input type="radio" name="BGM" value="BGMパターン2" id="bgm2">
+              <label for="bgm2">BGM パターン2</label>
+            </div>
+            <audio controls preload="none"><source src="audio/bgm-2.mp3" type="audio/mpeg"></audio>
+          </div>
+          <div class="audio-select-item" id="bgm-item-3">
+            <div class="audio-item-label">
+              <input type="radio" name="BGM" value="BGMパターン3" id="bgm3">
+              <label for="bgm3">BGM パターン3</label>
+            </div>
+            <audio controls preload="none"><source src="audio/bgm-3.mp3" type="audio/mpeg"></audio>
+          </div>
+        </div>
+      </div>
+
+      <!-- ナレーション -->
+      <div class="field">
+        <label>ナレーション<span class="optional">（1つ選んでください）</span></label>
+        <div class="audio-select-list">
+          <div class="audio-select-item" id="nar-item-1">
+            <div class="audio-item-label">
+              <input type="radio" name="ナレーション" value="ナレーションパターン1" id="nar1">
+              <label for="nar1">ナレーション パターン1</label>
+            </div>
+            <audio controls preload="none"><source src="audio/narration-1.mp3" type="audio/mpeg"></audio>
+          </div>
+          <div class="audio-select-item" id="nar-item-2">
+            <div class="audio-item-label">
+              <input type="radio" name="ナレーション" value="ナレーションパターン2" id="nar2">
+              <label for="nar2">ナレーション パターン2</label>
+            </div>
+            <audio controls preload="none"><source src="audio/narration-2.mp3" type="audio/mpeg"></audio>
+          </div>
+          <div class="audio-select-item" id="nar-item-3">
+            <div class="audio-item-label">
+              <input type="radio" name="ナレーション" value="ナレーションパターン3" id="nar3">
+              <label for="nar3">ナレーション パターン3</label>
+            </div>
+            <audio controls preload="none"><source src="audio/narration-3.mp3" type="audio/mpeg"></audio>
+          </div>
+        </div>
+      </div>
+
+      <div class="submit-row">
+        <button type="button" class="btn btn-preview" id="previewBtn">イメージをプレビューする</button>
+        <button type="submit" class="btn btn-primary" id="submitBtn">送信する</button>
+        <p class="form-note">送信内容は tomonaga@ncctv.co.jp 宛に送信されます。</p>
+      </div>
+
+    </form>
+
+    <!-- プレビューオーバーレイ -->
+    <div class="preview-overlay" id="previewOverlay">
+      <video class="preview-video" id="previewVideo" muted playsinline></video>
+      <button class="preview-close" id="previewClose">×</button>
+      <div class="preview-label" id="previewLabel"></div>
+    </div>
+
+    <div class="success-box" id="successBox">
+      <h2>送信が完了しました</h2>
+      <p>お申し込みありがとうございました。内容を確認の上、担当者よりご連絡いたします。</p>
+      <a href="index.html" class="btn btn-primary" style="display:inline-flex;width:auto;padding:14px 28px;">トップページへ戻る</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-bottom">
+    <p>&copy; 2026 Sales Promotion Conference Inc.</p>
+  </div>
+</footer>
+
+<script>
+  // 文字数カウント
+  const commentField = document.getElementById('comment');
+  const charCount = document.getElementById('charCount');
+  commentField.addEventListener('input', () => {
+    const len = commentField.value.length;
+    charCount.textContent = len + ' / 50';
+    charCount.classList.toggle('over', len >= 50);
+  });
+
+  // 音声選択ハイライト
+  document.querySelectorAll('input[name="BGM"]').forEach((radio, i) => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('[id^="bgm-item-"]').forEach(el => el.classList.remove('selected'));
+      document.getElementById('bgm-item-' + (i + 1)).classList.add('selected');
+    });
+  });
+  document.querySelectorAll('input[name="ナレーション"]').forEach((radio, i) => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('[id^="nar-item-"]').forEach(el => el.classList.remove('selected'));
+      document.getElementById('nar-item-' + (i + 1)).classList.add('selected');
+    });
+  });
+
+  // プレビュー
+  const previewBtn = document.getElementById('previewBtn');
+  const previewOverlay = document.getElementById('previewOverlay');
+  const previewVideo = document.getElementById('previewVideo');
+  const previewClose = document.getElementById('previewClose');
+  const previewLabel = document.getElementById('previewLabel');
+  let previewBgmAudio = null;
+  let previewNarAudio = null;
+  let switchTimer = null;
+
+  const videoSrcMap = {
+    '動画1枚目A': 'videos/bg1-a.mp4',
+    '動画1枚目B': 'videos/bg1-b.mp4',
+    '動画2枚目A': 'videos/bg2-a.mp4',
+    '動画2枚目B': 'videos/bg2-b.mp4',
+  };
+
+  previewBtn.addEventListener('click', () => {
+    const vid1Val = document.querySelector('input[name="背景動画1枚目"]:checked')?.value;
+    const vid2Val = document.querySelector('input[name="背景動画2枚目"]:checked')?.value;
+    const bgmVal = document.querySelector('input[name="BGM"]:checked')?.value;
+    const narVal = document.querySelector('input[name="ナレーション"]:checked')?.value;
+
+    if (!vid1Val && !vid2Val) {
+      alert('背景動画を選んでからプレビューしてください。');
+      return;
+    }
+
+    // 1枚目の動画をセット
+    if (vid1Val) {
+      previewVideo.src = videoSrcMap[vid1Val];
+      previewVideo.play();
+    }
+
+    // BGM再生
+    const bgmSrcMap = {
+      'BGMパターン1': 'audio/bgm-1.mp3',
+      'BGMパターン2': 'audio/bgm-2.mp3',
+      'BGMパターン3': 'audio/bgm-3.mp3',
+    };
+    if (bgmVal && bgmSrcMap[bgmVal]) {
+      previewBgmAudio = new Audio(bgmSrcMap[bgmVal]);
+      previewBgmAudio.volume = 0.4;
+      previewBgmAudio.play();
+      setTimeout(() => {
+        if (previewBgmAudio) { previewBgmAudio.pause(); previewBgmAudio = null; }
+      }, 17000);
+    }
+
+    // ナレーション再生 → 7.5秒後に2枚目へ切替
+    const narSrcMap = {
+      'ナレーションパターン1': 'audio/narration-1.mp3',
+      'ナレーションパターン2': 'audio/narration-2.mp3',
+      'ナレーションパターン3': 'audio/narration-3.mp3',
+    };
+    if (narVal && narSrcMap[narVal]) {
+      previewNarAudio = new Audio(narSrcMap[narVal]);
+      previewNarAudio.volume = 1.0;
+      previewNarAudio.play();
+    }
+
+    // 7.5秒後に2枚目へ切替
+    if (vid2Val) {
+      switchTimer = setTimeout(() => {
+        previewVideo.style.opacity = '0';
+        previewVideo.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => {
+          previewVideo.src = videoSrcMap[vid2Val];
+          previewVideo.play();
+          previewVideo.style.opacity = '0.85';
+        }, 500);
+      }, 7500);
+    }
+
+    previewLabel.textContent = [vid1Val, vid2Val, bgmVal, narVal].filter(Boolean).join(' / ');
+    previewOverlay.classList.add('show');
+  });
+
+  // 閉じる
+  previewClose.addEventListener('click', () => {
+    previewOverlay.classList.remove('show');
+    previewVideo.pause();
+    previewVideo.src = '';
+    if (previewBgmAudio) { previewBgmAudio.pause(); previewBgmAudio = null; }
+    if (previewNarAudio) { previewNarAudio.pause(); previewNarAudio = null; }
+    if (switchTimer) { clearTimeout(switchTimer); switchTimer = null; }
+  });
+
+  // フォーム送信
+  const form = document.getElementById('applyForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successBox = document.getElementById('successBox');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送信中...';
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        form.style.display = 'none';
+        successBox.classList.add('show');
+      } else {
+        alert('送信に失敗しました。お手数ですが、お電話にてお問い合わせください。');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '送信する';
+      }
+    } catch (error) {
+      alert('送信に失敗しました。お手数ですが、お電話にてお問い合わせください。');
+      submitBtn.disabled = false;
+      submitBtn.textContent = '送信する';
+    }
+  });
+</script>
+
+</body>
+</html>
