@@ -98,6 +98,15 @@
     .form-hero h1 { font-size: 24px; }
     .video-select-grid { grid-template-columns: 1fr 1fr; }
   }
+  .logo-upload-group { display: flex; flex-direction: column; gap: 16px; }
+.logo-type-toggle { display: flex; gap: 12px; margin-bottom: 8px; }
+.logo-type-btn { flex: 1; padding: 10px; border: 1px solid var(--gray-border); border-radius: 4px; background: var(--white); font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; color: var(--gray-text); transition: all 0.15s; }
+.logo-type-btn.active { border-color: var(--blue); color: var(--blue); background: #f0f4ff; }
+.logo-input-area { display: none; }
+.logo-input-area.show { display: block; }
+.preview-overlay-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 10; }
+.preview-company-name { color: #fff; font-size: 36px; font-weight: 700; text-shadow: 0 2px 8px rgba(0,0,0,0.7); white-space: nowrap; }
+.preview-company-logo { max-width: 300px; max-height: 120px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.7)); }
 </style>
 </head>
 <body>
@@ -196,6 +205,21 @@
           <label class="radio-option"><input type="radio" name="ご希望の時間帯" value="24:00〜25:00"> 24:00〜25:00</label>
         </div>
       </div>
+      <div class="field">
+  <label>社名・ロゴ<span class="optional">（2枚目の動画中央に表示されます）</span></label>
+  <div class="logo-upload-group">
+    <div class="logo-type-toggle">
+      <button type="button" class="logo-type-btn active" id="btnText" onclick="switchLogoType('text')">社名テキスト</button>
+      <button type="button" class="logo-type-btn" id="btnLogo" onclick="switchLogoType('logo')">ロゴ画像をアップロード</button>
+    </div>
+    <div class="logo-input-area show" id="areaText">
+      <input type="text" name="社名" id="companyNameOverlay" placeholder="例：株式会社〇〇〇">
+    </div>
+    <div class="logo-input-area" id="areaLogo">
+      <input type="file" id="logoFileInput" accept="image/*" style="font-size:14px;">
+    </div>
+  </div>
+</div>
 
       <h2 class="form-section-title">
         <span>CM MATERIALS</span>
@@ -311,6 +335,10 @@
     <!-- プレビューオーバーレイ -->
     <div class="preview-overlay" id="previewOverlay">
       <video class="preview-video" id="previewVideo" muted playsinline></video>
+      <div class="preview-overlay-text" id="previewOverlayText" style="display:none;">
+  <p class="preview-company-name" id="previewCompanyName"></p>
+  <img class="preview-company-logo" id="previewCompanyLogo" src="" style="display:none;">
+</div>
       <button class="preview-close" id="previewClose">×</button>
       <div class="preview-label" id="previewLabel"></div>
     </div>
@@ -428,6 +456,32 @@
     }
 
     previewLabel.textContent = [vid1Val, vid2Val, bgmVal, narVal].filter(Boolean).join(' / ');
+    // 社名/ロゴをオーバーレイに表示（2枚目切替時に表示）
+const overlayText = document.getElementById('previewOverlayText');
+const companyNameEl = document.getElementById('previewCompanyName');
+const companyLogoEl = document.getElementById('previewCompanyLogo');
+const isTextMode = document.getElementById('areaText').classList.contains('show');
+const companyName = document.getElementById('companyNameOverlay').value;
+
+overlayText.style.display = 'none';
+companyNameEl.textContent = '';
+companyLogoEl.style.display = 'none';
+companyLogoEl.src = '';
+
+if (vid2Val) {
+  switchTimer = setTimeout(() => {
+    if (isTextMode && companyName) {
+      companyNameEl.textContent = companyName;
+      companyLogoEl.style.display = 'none';
+      overlayText.style.display = 'block';
+    } else if (!isTextMode && logoObjectURL) {
+      companyLogoEl.src = logoObjectURL;
+      companyLogoEl.style.display = 'block';
+      companyNameEl.textContent = '';
+      overlayText.style.display = 'block';
+    }
+  }, 7500);
+}
     previewOverlay.classList.add('show');
   });
 
@@ -469,6 +523,21 @@
       submitBtn.textContent = '送信する';
     }
   });
+  // 社名/ロゴ切替
+function switchLogoType(type) {
+  document.getElementById('btnText').classList.toggle('active', type === 'text');
+  document.getElementById('btnLogo').classList.toggle('active', type === 'logo');
+  document.getElementById('areaText').classList.toggle('show', type === 'text');
+  document.getElementById('areaLogo').classList.toggle('show', type === 'logo');
+}
+
+// ロゴ画像のプレビュー用URL
+let logoObjectURL = null;
+document.getElementById('logoFileInput').addEventListener('change', (e) => {
+  if (logoObjectURL) URL.revokeObjectURL(logoObjectURL);
+  const file = e.target.files[0];
+  if (file) logoObjectURL = URL.createObjectURL(file);
+});
 </script>
 
 </body>
