@@ -98,6 +98,13 @@
     .form-hero h1 { font-size: 24px; }
     .image-select-grid { grid-template-columns: repeat(2, 1fr); }
   }
+  .video-select-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.video-select-item { position: relative; cursor: pointer; }
+.video-select-item input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+.video-select-item label { display: block; cursor: pointer; }
+.video-select-item video { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 4px; border: 3px solid transparent; transition: border-color 0.15s ease; display: block; }
+.video-select-item input[type="radio"]:checked + label video { border-color: var(--blue); }
+.video-select-item input[type="radio"]:checked + label .image-label { color: var(--blue); }
 </style>
 </head>
 <body>
@@ -204,67 +211,46 @@
         CM素材をお選びください
       </h2>
 
-      <!-- 背景画像1枚目 -->
-      <div class="field">
-        <label>背景画像 1枚目<span class="optional">（1つ選んでください）</span></label>
-        <div class="image-select-grid">
-          <div class="image-select-item">
-            <input type="radio" name="背景画像1枚目" id="bg1a" value="images/bg-1.jpg">
-            <label for="bg1a"><img src="images/bg-1.jpg" alt="パターン1"><div class="image-label">パターン1</div></label>
-          </div>
-          <div class="image-select-item">
-            <input type="radio" name="背景画像1枚目" id="bg2a" value="images/bg-2.jpg">
-            <label for="bg2a"><img src="images/bg-2.jpg" alt="パターン2"><div class="image-label">パターン2</div></label>
-          </div>
-          <div class="image-select-item">
-            <input type="radio" name="背景画像1枚目" id="bg3a" value="images/bg-3.jpg">
-            <label for="bg3a"><img src="images/bg-3.jpg" alt="パターン3"><div class="image-label">パターン3</div></label>
-          </div>
-          <div class="image-select-item">
-            <input type="radio" name="背景画像1枚目" id="bg4a" value="bg4">
-            <label for="bg4a"><img src="画像/bg-1b.jpg" alt="パターン4"><div class="image-label">パターン4</div></label>
-          </div>
-          <div class="image-select-item">
-            <input type="radio" name="背景画像1枚目" id="bg5a" value="bg5">
-            <label for="bg5a"><img src="画像/bg-2b.jpg" alt="パターン5"><div class="image-label">パターン5</div></label>
-          </div>
-          <div class="image-select-item">
-            <input type="radio" name="背景画像1枚目" id="bg6a" value="bg6">
-            <label for="bg6a"><img src="画像/bg-3b.jpg" alt="パターン6"><div class="image-label">パターン6</div></label>
-          </div>
-        </div>
-      </div>
-
-      <!-- 背景画像2枚目 -->
-      <div class="field">
-        <label>背景画像 2枚目<span class="optional">（1つ選んでください）</span></label>
-        <div class="image-select-grid">
-          <div class="image-select-item">
-            <input type="radio" name="背景画像2枚目" id="bg1b" value="images/bg-1.jpg">
-            <label for="bg1b"><img src="images/bg-1.jpg" alt="パターン1"><div class="image-label">パターン1</div></label>
-          </div>
-          <div class="image-select-item">
-            <input type="radio" name="背景画像2枚目" id="bg2b" value="images/bg-2.jpg">
-            <label for="bg2b"><img src="images/bg-2.jpg" alt="パターン2"><div class="image-label">パターン2</div></label>
-          </div>
-          <div class="image-select-item">
-            <input type="radio" name="背景画像2枚目" id="bg3b" value="images/bg-3.jpg">
-            <label for="bg3b"><img src="images/bg-3.jpg" alt="パターン3"><div class="image-label">パターン3</div></label>
-          </div>
-          <div class="image-select-item">
-            <input type="radio" name="背景画像2枚目" id="bg4b" value="bg4">
-            <label for="bg4b"><img src="画像/bg-1b.jpg" alt="パターン4"><div class="image-label">パターン4</div></label>
-          </div>
-          <div class="image-select-item">
-            <input type="radio" name="背景画像2枚目" id="bg5b" value="bg5">
-            <label for="bg5b"><img src="画像/bg-2b.jpg" alt="パターン5"><div class="image-label">パターン5</div></label>
-          </div>
-          <div class="image-select-item">
-            <input type="radio" name="背景画像2枚目" id="bg6b" value="bg6">
-            <label for="bg6b"><img src="画像/bg-3b.jpg" alt="パターン6"><div class="image-label">パターン6</div></label>
-          </div>
-        </div>
-      </div>
+    <!-- 背景動画1枚目 -->
+<div class="field">
+  <label>背景動画 1枚目<span class="optional">（A・Bどちらか選んでください）</span></label>
+  <div class="video-select-grid">
+    <div class="video-select-item">
+      <input type="radio" name="背景動画1枚目" id="vid1a" value="動画1枚目A">
+      <label for="vid1a">
+        <video src="videos/bg1-a.mp4" autoplay muted loop playsinline></video>
+        <div class="image-label">パターン A</div>
+      </label>
+    </div>
+    <div class="video-select-item">
+      <input type="radio" name="背景動画1枚目" id="vid1b" value="動画1枚目B">
+      <label for="vid1b">
+        <video src="videos/bg1-b.mp4" autoplay muted loop playsinline></video>
+        <div class="image-label">パターン B</div>
+      </label>
+    </div>
+  </div>
+</div>
+     <!-- 背景動画2枚目 -->
+<div class="field">
+  <label>背景動画 2枚目<span class="optional">（A・Bどちらか選んでください）</span></label>
+  <div class="video-select-grid">
+    <div class="video-select-item">
+      <input type="radio" name="背景動画2枚目" id="vid2a" value="動画2枚目A">
+      <label for="vid2a">
+        <video src="videos/bg2-a.mp4" autoplay muted loop playsinline></video>
+        <div class="image-label">パターン A</div>
+      </label>
+    </div>
+    <div class="video-select-item">
+      <input type="radio" name="背景動画2枚目" id="vid2b" value="動画2枚目B">
+      <label for="vid2b">
+        <video src="videos/bg2-b.mp4" autoplay muted loop playsinline></video>
+        <div class="image-label">パターン B</div>
+      </label>
+    </div>
+  </div>
+</div>
 
       <!-- BGM -->
       <div class="field">
