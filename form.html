@@ -107,6 +107,21 @@
 .preview-overlay-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 10; }
 .preview-company-name { color: #fff; font-size: 100px; font-weight: 700; text-shadow: 0 2px 8px rgba(0,0,0,0.7); white-space: nowrap; }
 .preview-company-logo { max-width: 600px; max-height: 240px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.7)); }
+
+/* 動画書き出し */
+.btn-export { background: var(--white); color: var(--blue); border: 2px solid var(--blue); margin-bottom: 12px; }
+.btn-export:hover { background: #f0f4ff; }
+.export-overlay { display: none; position: fixed; inset: 0; z-index: 1001; background: rgba(20,23,28,0.85); align-items: center; justify-content: center; padding: 16px; }
+.export-overlay.show { display: flex; }
+.export-panel { background: var(--white); border-radius: 8px; padding: 24px; width: 100%; max-width: 680px; }
+.export-panel h3 { font-size: 17px; margin-bottom: 14px; }
+.export-panel canvas { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 4px; display: block; }
+.export-progress { height: 6px; background: var(--gray-border); border-radius: 3px; margin: 14px 0 8px; overflow: hidden; }
+.export-progress-bar { height: 100%; width: 0; background: var(--blue); transition: width 0.2s linear; }
+.export-status { font-size: 13px; color: var(--gray-text); margin-bottom: 16px; }
+.export-actions { display: flex; gap: 12px; }
+.export-actions .btn { padding: 12px 20px; font-size: 14px; }
+.btn-ghost { background: var(--gray-light); color: var(--black); }
 </style>
 </head>
 <body>
@@ -326,6 +341,7 @@
 
       <div class="submit-row">
         <button type="button" class="btn btn-preview" id="previewBtn">イメージをプレビューする</button>
+        <button type="button" class="btn btn-export" id="exportBtn">動画を書き出してダウンロード</button>
         <button type="submit" class="btn btn-primary" id="submitBtn">送信する</button>
         <p class="form-note">送信内容は tomonaga@ncctv.co.jp 宛に送信されます。</p>
       </div>
@@ -341,6 +357,20 @@
 </div>
       <button class="preview-close" id="previewClose">×</button>
       <div class="preview-label" id="previewLabel"></div>
+    </div>
+
+    <!-- 動画書き出しパネル -->
+    <div class="export-overlay" id="exportOverlay">
+      <div class="export-panel">
+        <h3 id="exportTitle">CM動画を書き出しています</h3>
+        <canvas id="exportCanvas" width="1280" height="720"></canvas>
+        <div class="export-progress"><div class="export-progress-bar" id="exportBar"></div></div>
+        <p class="export-status" id="exportStatus">素材を読み込み中…</p>
+        <div class="export-actions">
+          <a class="btn btn-primary" id="exportDownload" style="display:none;">もう一度ダウンロード</a>
+          <button type="button" class="btn btn-ghost" id="exportClose">キャンセル</button>
+        </div>
+      </div>
     </div>
 
     <div class="success-box" id="successBox">
@@ -390,6 +420,7 @@
   let previewBgmAudio = null;
   let previewNarAudio = null;
   let switchTimer = null;
+  let overlayTimer = null;
 
   const videoSrcMap = {
     '動画1枚目A': 'videos/bg1-a.mp4',
@@ -469,7 +500,7 @@ companyLogoEl.style.display = 'none';
 companyLogoEl.src = '';
 
 if (vid2Val) {
-  switchTimer = setTimeout(() => {
+  overlayTimer = setTimeout(() => {
     if (isTextMode && companyName) {
       companyNameEl.textContent = companyName;
       companyLogoEl.style.display = 'none';
@@ -493,6 +524,8 @@ if (vid2Val) {
     if (previewBgmAudio) { previewBgmAudio.pause(); previewBgmAudio = null; }
     if (previewNarAudio) { previewNarAudio.pause(); previewNarAudio = null; }
     if (switchTimer) { clearTimeout(switchTimer); switchTimer = null; }
+    if (overlayTimer) { clearTimeout(overlayTimer); overlayTimer = null; }
+    document.getElementById('previewOverlayText').style.display = 'none';
   });
 
   // フォーム送信
@@ -537,6 +570,284 @@ document.getElementById('logoFileInput').addEventListener('change', (e) => {
   if (logoObjectURL) URL.revokeObjectURL(logoObjectURL);
   const file = e.target.files[0];
   if (file) logoObjectURL = URL.createObjectURL(file);
+});
+
+// =====================================================================
+// CM動画の書き出し（ダウンロード）
+//   ・Canvas に動画とロゴを1コマずつ描画
+//   ・Web Audio で BGM とナレーションをミックス
+//   ・MediaRecorder で両方を録画して1本の動画ファイルにする
+// =====================================================================
+const CM_DURATION = 15;   // 書き出す長さ（秒）
+const SWITCH_AT   = 7.5;  // 2枚目に切り替える時刻（秒）
+const FADE        = 0.5;  // 切替時のフェード（秒）
+const VIDEO_ALPHA = 0.85; // プレビューと同じ明るさ
+const BGM_VOLUME  = 0.4;
+const NAR_VOLUME  = 1.0;
+const OUT_W = 1280, OUT_H = 720, FPS = 30;
+
+const bgmSrcMapExport = { 'BGMパターン1': 'audio/bgm-1.mp3', 'BGMパターン2': 'audio/bgm-2.mp3', 'BGMパターン3': 'audio/bgm-3.mp3' };
+const narSrcMapExport = { 'ナレーションパターン1': 'audio/narration-1.mp3', 'ナレーションパターン2': 'audio/narration-2.mp3', 'ナレーションパターン3': 'audio/narration-3.mp3' };
+
+const exportBtn      = document.getElementById('exportBtn');
+const exportOverlay  = document.getElementById('exportOverlay');
+const exportCanvas   = document.getElementById('exportCanvas');
+const exportBar      = document.getElementById('exportBar');
+const exportStatus   = document.getElementById('exportStatus');
+const exportTitle    = document.getElementById('exportTitle');
+const exportDownload = document.getElementById('exportDownload');
+const exportClose    = document.getElementById('exportClose');
+let exportJob = null; // 実行中の書き出し（キャンセル用）
+
+// ブラウザが録画できる形式を選ぶ（Safari・新しめのChromeはMP4、それ以外はWebM）
+function pickMimeType() {
+  if (!window.MediaRecorder) return null;
+  const candidates = [
+    'video/mp4;codecs=avc1.42E01E,mp4a.40.2',
+    'video/mp4',
+    'video/webm;codecs=vp9,opus',
+    'video/webm;codecs=vp8,opus',
+    'video/webm',
+  ];
+  return candidates.find(t => MediaRecorder.isTypeSupported(t)) || null;
+}
+
+function loadVideo(src) {
+  return new Promise((resolve, reject) => {
+    const v = document.createElement('video');
+    v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'auto';
+    v.addEventListener('canplay', () => resolve(v), { once: true });
+    v.addEventListener('error', () => reject(new Error('動画を読み込めませんでした: ' + src)), { once: true });
+    v.src = src;
+  });
+}
+function loadAudio(src) {
+  return new Promise((resolve, reject) => {
+    const a = new Audio();
+    a.preload = 'auto';
+    a.addEventListener('canplaythrough', () => resolve(a), { once: true });
+    a.addEventListener('error', () => reject(new Error('音声を読み込めませんでした: ' + src)), { once: true });
+    a.src = src;
+  });
+}
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('ロゴ画像を読み込めませんでした'));
+    img.src = src;
+  });
+}
+
+// object-fit: cover と同じ描き方
+function drawCover(ctx, video, alpha) {
+  const vw = video.videoWidth, vh = video.videoHeight;
+  if (!vw || !vh || alpha <= 0) return;
+  const s = Math.max(OUT_W / vw, OUT_H / vh);
+  const dw = vw * s, dh = vh * s;
+  ctx.globalAlpha = alpha;
+  ctx.drawImage(video, (OUT_W - dw) / 2, (OUT_H - dh) / 2, dw, dh);
+  ctx.globalAlpha = 1;
+}
+
+function drawCompanyOverlay(ctx, name, logoImg) {
+  ctx.save();
+  ctx.shadowColor = 'rgba(0,0,0,0.7)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetY = 2;
+  if (logoImg) {
+    const maxW = OUT_W * 0.47, maxH = OUT_H * 0.33;
+    const s = Math.min(maxW / logoImg.width, maxH / logoImg.height);
+    const w = logoImg.width * s, h = logoImg.height * s;
+    ctx.drawImage(logoImg, (OUT_W - w) / 2, (OUT_H - h) / 2, w, h);
+  } else if (name) {
+    let size = Math.round(OUT_W * 0.07);
+    ctx.font = `700 ${size}px 'Noto Sans JP', sans-serif`;
+    while (ctx.measureText(name).width > OUT_W * 0.9 && size > 20) {
+      size -= 4;
+      ctx.font = `700 ${size}px 'Noto Sans JP', sans-serif`;
+    }
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(name, OUT_W / 2, OUT_H / 2);
+  }
+  ctx.restore();
+}
+
+function makeFileName(company, ext) {
+  const d = new Date();
+  const ymd = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+  const safe = (company || 'CM').replace(/[\\/:*?"<>|\s]+/g, '_').slice(0, 30);
+  return `CM_${safe}_${ymd}.${ext}`;
+}
+
+function resetExportUI() {
+  exportBar.style.width = '0';
+  exportTitle.textContent = 'CM動画を書き出しています';
+  exportStatus.textContent = '素材を読み込み中…';
+  exportDownload.style.display = 'none';
+  if (exportDownload.href) URL.revokeObjectURL(exportDownload.href);
+  exportDownload.removeAttribute('href');
+  exportClose.textContent = 'キャンセル';
+}
+
+exportClose.addEventListener('click', () => {
+  if (exportJob) exportJob.cancel();
+  exportOverlay.classList.remove('show');
+});
+
+exportBtn.addEventListener('click', async () => {
+  const vid1Val = document.querySelector('input[name="背景動画1枚目"]:checked')?.value;
+  const vid2Val = document.querySelector('input[name="背景動画2枚目"]:checked')?.value;
+  const bgmVal  = document.querySelector('input[name="BGM"]:checked')?.value;
+  const narVal  = document.querySelector('input[name="ナレーション"]:checked')?.value;
+
+  if (!vid1Val || !vid2Val) {
+    alert('背景動画の1枚目と2枚目を両方選んでから書き出してください。');
+    return;
+  }
+  const mimeType = pickMimeType();
+  if (!mimeType) {
+    alert('お使いのブラウザは動画の書き出しに対応していません。最新の Chrome / Edge / Safari でお試しください。');
+    return;
+  }
+
+  // 音声はクリック直後に開始しないとブラウザにブロックされるため、ここで作る
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  await audioCtx.resume();
+
+  resetExportUI();
+  exportOverlay.classList.add('show');
+
+  let cancelled = false;
+  let recorder = null;
+  const media = [];
+  const cleanup = () => {
+    media.forEach(m => { m.pause(); m.removeAttribute('src'); m.load(); });
+    audioCtx.close();
+    exportJob = null;
+  };
+  exportJob = {
+    cancel() {
+      cancelled = true;
+      if (recorder && recorder.state !== 'inactive') recorder.stop();
+      else cleanup();
+    }
+  };
+
+  try {
+    // ---- 1. 素材を読み込む ----
+    const isTextMode  = document.getElementById('areaText').classList.contains('show');
+    const companyName = document.getElementById('companyNameOverlay').value.trim();
+    const companyForFile = document.getElementById('company').value.trim() || companyName;
+
+    const [video1, video2, bgm, nar, logoImg] = await Promise.all([
+      loadVideo(videoSrcMap[vid1Val]),
+      loadVideo(videoSrcMap[vid2Val]),
+      bgmVal ? loadAudio(bgmSrcMapExport[bgmVal]) : null,
+      narVal ? loadAudio(narSrcMapExport[narVal]) : null,
+      (!isTextMode && logoObjectURL) ? loadImage(logoObjectURL) : null,
+      document.fonts ? document.fonts.ready : null,
+    ]);
+    [video1, video2, bgm, nar].forEach(m => m && media.push(m));
+    if (cancelled) return;
+
+    // ---- 2. 音声をミックスする ----
+    const dest = audioCtx.createMediaStreamDestination();
+    const master = audioCtx.createGain();
+    master.connect(dest);
+    if (bgm) {
+      const g = audioCtx.createGain(); g.gain.value = BGM_VOLUME;
+      audioCtx.createMediaElementSource(bgm).connect(g).connect(master);
+    }
+    if (nar) {
+      const g = audioCtx.createGain(); g.gain.value = NAR_VOLUME;
+      audioCtx.createMediaElementSource(nar).connect(g).connect(master);
+    }
+
+    // ---- 3. 映像と音声をまとめて録画を始める ----
+    const ctx = exportCanvas.getContext('2d');
+    const stream = new MediaStream([
+      ...exportCanvas.captureStream(FPS).getVideoTracks(),
+      ...dest.stream.getAudioTracks(),
+    ]);
+    const chunks = [];
+    recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 6_000_000 });
+    recorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+    const finished = new Promise(r => { recorder.onstop = r; });
+
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, OUT_W, OUT_H);
+    video1.currentTime = 0;
+    await video1.play();
+    if (bgm) bgm.play();
+    if (nar) nar.play();
+    recorder.start(250);
+    const t0 = audioCtx.currentTime;
+    // 終わり0.5秒で音をフェードアウト
+    master.gain.setValueAtTime(1, t0 + CM_DURATION - 0.5);
+    master.gain.linearRampToValueAtTime(0, t0 + CM_DURATION);
+
+    exportStatus.textContent = '書き出し中です。完了までこのタブを表示したままお待ちください。';
+    let video2Started = false;
+
+    // ---- 4. 1コマずつ描画（プレビューと同じタイムライン） ----
+    await new Promise(resolve => {
+      const frame = () => {
+        if (cancelled) return resolve();
+        const t = audioCtx.currentTime - t0;
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, OUT_W, OUT_H);
+
+        if (t < SWITCH_AT) {
+          drawCover(ctx, video1, VIDEO_ALPHA);
+        } else if (t < SWITCH_AT + FADE) {
+          drawCover(ctx, video1, VIDEO_ALPHA * (1 - (t - SWITCH_AT) / FADE));
+        } else {
+          if (!video2Started) {
+            video2Started = true;
+            video1.pause();
+            video2.currentTime = 0;
+            video2.play();
+          }
+          const p = Math.min(1, (t - SWITCH_AT - FADE) / FADE);
+          drawCover(ctx, video2, VIDEO_ALPHA * p);
+        }
+        if (t >= SWITCH_AT) drawCompanyOverlay(ctx, isTextMode ? companyName : '', logoImg);
+
+        exportBar.style.width = Math.min(100, (t / CM_DURATION) * 100) + '%';
+        if (t >= CM_DURATION) return resolve();
+        requestAnimationFrame(frame);
+      };
+      requestAnimationFrame(frame);
+    });
+
+    if (recorder.state !== 'inactive') recorder.stop();
+    await finished;
+    cleanup();
+    if (cancelled) return;
+
+    // ---- 5. ファイルにしてダウンロード ----
+    const ext = mimeType.startsWith('video/mp4') ? 'mp4' : 'webm';
+    const blob = new Blob(chunks, { type: mimeType.split(';')[0] });
+    const url = URL.createObjectURL(blob);
+    exportDownload.href = url;
+    exportDownload.download = makeFileName(companyForFile, ext);
+    exportDownload.style.display = 'inline-flex';
+    exportDownload.click();
+
+    exportBar.style.width = '100%';
+    exportTitle.textContent = '書き出しが完了しました';
+    exportStatus.textContent = `${exportDownload.download}（${(blob.size / 1024 / 1024).toFixed(1)}MB）を保存しました。`;
+    exportClose.textContent = '閉じる';
+  } catch (err) {
+    console.error(err);
+    cleanup();
+    exportTitle.textContent = '書き出しに失敗しました';
+    exportStatus.textContent = err.message || String(err);
+    exportClose.textContent = '閉じる';
+  }
 });
 </script>
 
