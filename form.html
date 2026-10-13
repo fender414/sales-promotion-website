@@ -108,6 +108,20 @@
 .preview-company-name { color: #fff; font-size: 100px; font-weight: 700; text-shadow: 0 2px 8px rgba(0,0,0,0.7); white-space: nowrap; }
 .preview-company-logo { max-width: 600px; max-height: 240px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.7)); }
 
+/* 自分の動画アップロード */
+.video-select-grid { grid-template-columns: 1fr 1fr 1fr; }
+.upload-box { position: relative; width: 100%; aspect-ratio: 16/9; border: 3px dashed var(--gray-border); border-radius: 4px; background: var(--gray-light); display: flex; align-items: center; justify-content: center; overflow: hidden; transition: border-color 0.15s ease; }
+.upload-box:hover { border-color: var(--blue); }
+.upload-box video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; border: none; border-radius: 0; }
+.upload-box.has-video { border-style: solid; border-color: transparent; }
+.upload-box.has-video video { display: block; }
+.upload-box.has-video .upload-placeholder { display: none; }
+.upload-placeholder { font-size: 12.5px; font-weight: 700; color: var(--gray-text); text-align: center; line-height: 1.5; }
+.video-select-item input[type="radio"]:checked + label .upload-box { border-color: var(--blue); }
+.upload-change { display: none; margin-left: 6px; padding: 1px 8px; font-size: 11px; font-family: inherit; border: 1px solid var(--gray-border); border-radius: 3px; background: var(--white); color: var(--gray-text); cursor: pointer; }
+.video-upload-item.ready .upload-change { display: inline-block; }
+@media (max-width: 600px) { .video-select-grid { grid-template-columns: 1fr 1fr; } }
+
 /* 動画書き出し */
 .btn-export { background: var(--white); color: var(--blue); border: 2px solid var(--blue); margin-bottom: 12px; }
 .btn-export:hover { background: #f0f4ff; }
@@ -243,7 +257,7 @@
 
       <!-- 背景動画1枚目 -->
       <div class="field">
-        <label>背景動画 1枚目<span class="optional">（A・Bどちらか選んでください）</span></label>
+        <label>背景動画 1枚目<span class="optional">（A・Bまたは自分の動画を1つ選んでください）</span></label>
         <div class="video-select-grid">
           <div class="video-select-item">
             <input type="radio" name="背景動画1枚目" id="vid1a" value="動画1枚目A">
@@ -259,12 +273,23 @@
               <div class="image-label">パターン B</div>
             </label>
           </div>
+          <div class="video-select-item video-upload-item" data-slot="1">
+            <input type="radio" name="背景動画1枚目" id="vid1u" value="">
+            <label for="vid1u">
+              <div class="upload-box">
+                <video muted loop playsinline></video>
+                <span class="upload-placeholder">＋<br>動画を選ぶ</span>
+              </div>
+              <div class="image-label">自分の動画 <button type="button" class="upload-change">変更</button></div>
+            </label>
+            <input type="file" accept="video/*" hidden>
+          </div>
         </div>
       </div>
 
       <!-- 背景動画2枚目 -->
       <div class="field">
-        <label>背景動画 2枚目<span class="optional">（A・Bどちらか選んでください）</span></label>
+        <label>背景動画 2枚目<span class="optional">（A・Bまたは自分の動画を1つ選んでください）</span></label>
         <div class="video-select-grid">
           <div class="video-select-item">
             <input type="radio" name="背景動画2枚目" id="vid2a" value="動画2枚目A">
@@ -279,6 +304,17 @@
               <video src="videos/bg2-b.mp4" autoplay muted loop playsinline></video>
               <div class="image-label">パターン B</div>
             </label>
+          </div>
+          <div class="video-select-item video-upload-item" data-slot="2">
+            <input type="radio" name="背景動画2枚目" id="vid2u" value="">
+            <label for="vid2u">
+              <div class="upload-box">
+                <video muted loop playsinline></video>
+                <span class="upload-placeholder">＋<br>動画を選ぶ</span>
+              </div>
+              <div class="image-label">自分の動画 <button type="button" class="upload-change">変更</button></div>
+            </label>
+            <input type="file" accept="video/*" hidden>
           </div>
         </div>
       </div>
@@ -570,6 +606,62 @@ document.getElementById('logoFileInput').addEventListener('change', (e) => {
   if (logoObjectURL) URL.revokeObjectURL(logoObjectURL);
   const file = e.target.files[0];
   if (file) logoObjectURL = URL.createObjectURL(file);
+});
+
+// =====================================================================
+// 自分の動画をアップロードして背景に使う
+//   ・動画はサーバーに送らず、このパソコンの中だけで使う（blob URL）
+//   ・選んだ動画は videoSrcMap に登録するので、プレビュー・書き出しはそのまま動く
+// =====================================================================
+const MAX_UPLOAD_MB = 300;
+document.querySelectorAll('.video-upload-item').forEach(item => {
+  const slot      = item.dataset.slot;
+  const radio     = item.querySelector('input[type="radio"]');
+  const label     = item.querySelector('label');
+  const fileInput = item.querySelector('input[type="file"]');
+  const box       = item.querySelector('.upload-box');
+  const thumb     = box.querySelector('video');
+  const changeBtn = item.querySelector('.upload-change');
+  let currentUrl  = null;
+
+  // まだ動画がない状態で枠を押したら、ファイル選択を開く
+  label.addEventListener('click', e => {
+    if (!currentUrl) { e.preventDefault(); fileInput.click(); }
+  });
+  changeBtn.addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation(); fileInput.click();
+  });
+
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    fileInput.value = ''; // 同じファイルを選び直しても反応するように
+    if (!file) return;
+    if (!file.type.startsWith('video/')) { alert('動画ファイルを選んでください。'); return; }
+    if (file.size > MAX_UPLOAD_MB * 1024 * 1024) {
+      alert(`ファイルが大きすぎます（${MAX_UPLOAD_MB}MBまで）。短く切るか圧縮してからお試しください。`);
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    // このブラウザで再生できる形式か確かめてから採用する
+    const probe = document.createElement('video');
+    probe.muted = true;
+    probe.onloadeddata = () => {
+      if (currentUrl) { delete videoSrcMap[radio.value]; URL.revokeObjectURL(currentUrl); }
+      currentUrl = url;
+      radio.value = `動画${slot}枚目（アップロード：${file.name}）`; // フォーム送信時にファイル名が分かるように
+      videoSrcMap[radio.value] = url;
+      thumb.src = url; thumb.play().catch(() => {});
+      box.classList.add('has-video');
+      item.classList.add('ready');
+      radio.checked = true;
+      probe.removeAttribute('src');
+    };
+    probe.onerror = () => {
+      URL.revokeObjectURL(url);
+      alert('この動画はブラウザで再生できない形式です。MP4（H.264）形式に変換してからお試しください。\n※iPhoneで撮影した動画（HEVC）はWindowsで再生できない場合があります。');
+    };
+    probe.src = url;
+  });
 });
 
 // =====================================================================
